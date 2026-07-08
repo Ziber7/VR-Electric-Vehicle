@@ -46,6 +46,9 @@ public class BaterryDiag : MonoBehaviour
     [Header("Step 2")]
     public GameObject ArrowHint;
     public GameObject OpenLatchUI;
+    public GameObject OpenButtonUI;
+    public GameObject ToogleViewManager;
+    public GameObject WarningGlovesUI;
 
    [Header("Step 3")]
     // Inspection Answer
@@ -57,7 +60,7 @@ public class BaterryDiag : MonoBehaviour
 
     public GameObject table;
     public GameObject wire;
-    //public GameObject ODS;
+    public GameObject OBDScanner;
     public GameObject OBDScannerHover;
     public GameObject OBDScannerConnect;
 
@@ -74,9 +77,14 @@ public class BaterryDiag : MonoBehaviour
     public Image AnswerType;
     public Sprite CorrectAnswer;
     public Sprite IncorrectAnswer;
-    
 
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip Step1Audio;
+    public AudioClip Step4Audio;
+    public AudioClip WarningGloves;
+        
 
     // Start is called before the first frame update
     void Start()
@@ -99,6 +107,17 @@ public class BaterryDiag : MonoBehaviour
 
 
         FinishButton.SetActive(false);
+
+
+        // Initialize Audio Manager
+        // Cache the AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+
+        // Testing Audio
+        PlayOneShotAudio(Step1Audio);
     }
 
     // Update is called once per frame
@@ -139,6 +158,7 @@ public class BaterryDiag : MonoBehaviour
 
         };
 
+        Debug.Log("index Step : " + indexStep);
 
         // Switching steps / Initilaize stage in the step
         switch (indexStep)
@@ -155,6 +175,10 @@ public class BaterryDiag : MonoBehaviour
                 break;
 
             case 3:
+                // Set Outline
+                Outline OL = OBDScanner.GetComponent<Outline>();
+                OL.enabled = true;
+
                 ToogleView TV = ViewConfig.GetComponent<ToogleView>();
                 TV.FullView();
 
@@ -215,6 +239,10 @@ public class BaterryDiag : MonoBehaviour
                 TaskGroups[0].TaskStatus[0] = true;
                 checkTask();
 
+                // Turn off Warning UI if weared in Step 2
+                WarningGlovesUI.SetActive(false);
+                OpenButtonUI.SetActive(true);
+
                 break;
             
             case  1:
@@ -227,9 +255,32 @@ public class BaterryDiag : MonoBehaviour
                 TaskGroups[0].TaskStatus[1] = true;
                 WearedGlasses.SetActive(true);
                 checkTask();
+
+                // Because the Gloves is Optional
+                nextButton.interactable = true;
                 break;
             default:
             break;
+        }
+    }
+
+    public void Step2()
+    {
+        if (TaskGroups[0].TaskStatus[0])
+        {
+            // Already wear gloves
+            ToogleView TV = ToogleViewManager.GetComponent<ToogleView>();
+            TV.NoExterior();
+            TaskGroups[1].TaskStatus[0] = true;
+            OpenLatchUI.SetActive(false);
+            CheckMark[3].SetActive(true);
+            checkTask();
+        } else
+        {
+            // Not Wearing Gloves
+            OpenButtonUI.SetActive(false);
+            WarningGlovesUI.SetActive(true);
+            PlayOneShotAudio(WarningGloves);
         }
     }
 
@@ -247,6 +298,22 @@ public class BaterryDiag : MonoBehaviour
         OBDScannerConnect.SetActive(true);
         CheckMark[2].SetActive(true);
         checkTask();
+    }
+
+    public void GrabOBDScanner()
+    {
+        // Set Outline
+        Outline OL = OBDScanner.GetComponent<Outline>();
+
+        if (OL.enabled)
+        {
+            // Only played once
+            PlayOneShotAudio(Step4Audio);
+        }
+
+        // Remove Outline On Grab
+        OL.enabled = false;
+
     }
 
     public void ReadingDiag(int a)
@@ -319,8 +386,9 @@ public class BaterryDiag : MonoBehaviour
                 TaskGroups[2].TaskResultImage[i].sprite = CheckHiRes;
             } else
             {
+                // Wrong Answer
                 TaskGroups[2].TaskResultImage[i].enabled = true;
-                // wrong
+                TaskGroups[2].TaskResultImage[i].sprite = IncorrectAnswer;
             }
         }
 
@@ -331,14 +399,33 @@ public class BaterryDiag : MonoBehaviour
             TaskGroups[5].TaskResultImage[0].sprite = CheckHiRes;
         } else
         {
+            // Wrong Answer
             TaskGroups[5].TaskResultImage[0].enabled = true;
-            // wrong
+            TaskGroups[5].TaskResultImage[0].sprite = IncorrectAnswer;
         }
-
-
 
     }
 
+    public void PlayOneShotAudio(AudioClip clip)
+    {
+        float volumeScale = 1f;
+        if (clip == null) return;
 
+        // Lazy-init: grab or add an AudioSource on this GameObject
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        // Stop previous clip before playing the new one
+        audioSource.Stop();
+
+        // Use Play() instead of PlayOneShot() so isPlaying tracks correctly
+        // PlayOneShot creates a separate voice that ignores Stop/Play state
+        audioSource.clip = clip;
+        audioSource.volume = volumeScale;
+        audioSource.loop = false;
+        audioSource.Play();
+    }
 
 }

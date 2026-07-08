@@ -30,6 +30,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     //AudioManager
 
+    private AudioSource oneShotSource;
+
     void Awake()
     {
         if (instance == null)
@@ -41,6 +43,9 @@ public class AudioManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        // Dedicated AudioSource for one-shot playback
+        oneShotSource = gameObject.AddComponent<AudioSource>();
 
         foreach (Sound s in sounds)
         {
@@ -65,6 +70,22 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Play();
+    }
+
+    public void PlayOneShot(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found");
+            return;
+        }
+
+        // Stop previous one-shot before playing the new one
+        if (oneShotSource.isPlaying)
+            oneShotSource.Stop();
+
+        oneShotSource.PlayOneShot(s.clip, s.volume);
     }
 
     public void Stop(string name)
