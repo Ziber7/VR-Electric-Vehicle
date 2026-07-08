@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VR Electric Vehicle — Project Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 0; size: A4; }
+
+  :root {
+    --blue-50:  #eff6ff;
+    --blue-100: #dbeafe;
+    --blue-200: #bfdbfe;
+    --blue-400: #60a5fa;
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-900: #1e3a5f;
+    --slate-50:  #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --emerald-500: #10b981;
+    --emerald-600: #059669;
+    --amber-500: #f59e0b;
+    --violet-500: #8b5cf6;
+    --cyan-400: #22d3ee;
+    --cyan-500: #06b6d4;
+    --cyan-600: #0891b2;
+    --white: #ffffff;
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--slate-800);
+    line-height: 1.75;
+    font-size: 14px;
+    background: var(--slate-50);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    background: linear-gradient(160deg, #0c1929 0%, #112240 30%, #0a1e3d 60%, #0b2b3b 100%);
+    padding: 70px 60px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(6,182,212,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 30%, rgba(59,130,246,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 50% at 50% 80%, rgba(139,92,246,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cyan-500), var(--blue-500), var(--violet-500));
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(6,182,212,0.3));
+  }
+  .hero h1 {
+    font-size: 2.8em;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .hero .tagline {
+    font-size: 1.15em;
+    color: var(--slate-300);
+    font-weight: 400;
+    max-width: 620px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+  .hero .byline {
+    font-size: 0.9em;
+    color: var(--slate-500);
+    font-weight: 500;
+  }
+  .hero .byline strong { color: var(--slate-300); }
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82em;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: #e2e8f0;
+  }
+  .hero-badge.unity { background: rgba(59,130,246,0.18); }
+  .hero-badge.xr   { background: rgba(139,92,246,0.18); }
+  .hero-badge.vr   { background: rgba(6,182,212,0.18); }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin: 0 40px;
+    padding: 32px 40px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 2;
+    margin-top: -28px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-value {
+    font-size: 2em;
+    font-weight: 800;
+    color: var(--blue-600);
+    letter-spacing: -0.02em;
+  }
+  .stat-value.cyan { color: var(--cyan-600); }
+  .stat-value.emerald { color: var(--emerald-600); }
+  .stat-value.violet { color: var(--violet-500); }
+  .stat-label {
+    font-size: 0.78em;
+    color: var(--slate-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 48px 32px 60px;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  h2 {
+    font-size: 1.75em;
+    font-weight: 700;
+    color: var(--slate-900);
+    letter-spacing: -0.01em;
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--slate-200);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-600));
+    color: var(--white);
+    font-size: 0.65em;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--slate-800);
+    margin: 28px 0 12px;
+  }
+  h3.card-title {
+    font-size: 1.05em;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin: 18px 0;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card.accent-blue  { border-left: 4px solid var(--blue-500); }
+  .card.accent-cyan  { border-left: 4px solid var(--cyan-500); }
+  .card.accent-violet{ border-left: 4px solid var(--violet-500); }
+
+  /* ── STEP CARDS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .step-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-200);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .step-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .step-card .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 0.85em;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .step-card:nth-child(1) .step-num { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .step-card:nth-child(2) .step-num { background: linear-gradient(135deg, #f97316, #ea580c); }
+  .step-card:nth-child(3) .step-num { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+  .step-card:nth-child(4) .step-num { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+  .step-card:nth-child(5) .step-num { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+  .step-card:nth-child(6) .step-num { background: linear-gradient(135deg, #10b981, #059669); }
+  .step-card .step-title {
+    font-weight: 700;
+    font-size: 1.02em;
+    color: var(--slate-900);
+    margin-bottom: 8px;
+  }
+  .step-card .step-desc {
+    font-size: 0.9em;
+    color: var(--slate-600);
+    line-height: 1.65;
+  }
+
+  /* ── FLOW ── */
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 28px 0;
+    padding: 24px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-200);
+  }
+  .flow-node {
+    background: linear-gradient(135deg, var(--slate-800), var(--slate-700));
+    color: var(--white);
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95em;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+  }
+  .flow-node.highlight { background: linear-gradient(135deg, var(--blue-600), var(--cyan-600)); }
+  .flow-arrow {
+    color: var(--slate-300);
+    font-size: 1.5em;
+    font-weight: 300;
+  }
+  .flow-label {
+    color: var(--slate-400);
+    font-size: 0.8em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    margin: 18px 0 28px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--slate-200);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: var(--slate-800);
+    color: var(--white);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--slate-100);
+    background: var(--white);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--blue-50); }
+  td:first-child, th:first-child { font-weight: 600; }
+
+  /* ── CODE ── */
+  code {
+    background: var(--slate-100);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.88em;
+    font-weight: 500;
+    color: var(--blue-700);
+  }
+  pre {
+    background: var(--slate-900);
+    color: #e2e8f0;
+    padding: 20px 24px;
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    margin: 16px 0;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  pre::before {
+    content: 'C#';
+    position: absolute;
+    top: 8px; right: 14px;
+    font-size: 0.7em;
+    color: var(--slate-500);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Inter', sans-serif;
+  }
+  pre.tree::before { content: '📁'; }
+
+  /* ── LISTS ── */
+  ul, ol { padding-left: 22px; }
+  li { margin: 5px 0; color: var(--slate-700); }
+  li strong { color: var(--slate-900); }
+
+  /* ── PRINCIPLES GRID ── */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .principle-card {
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .principle-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .principle-card .label { font-weight: 700; font-size: 0.92em; color: var(--slate-900); }
+  .principle-card .desc  { font-size: 0.8em; color: var(--slate-500); margin-top: 4px; line-height: 1.5; }
+
+  /* ── TOC ── */
+  .toc {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 8px;
+  }
+  .toc li { margin: 0; }
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--slate-700);
+    font-weight: 500;
+    font-size: 0.92em;
+    transition: all 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  .toc a:hover {
+    border-color: var(--blue-400);
+    color: var(--blue-700);
+    box-shadow: var(--shadow-md);
+  }
+  .toc .toc-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--slate-100);
+    color: var(--slate-500);
+    font-weight: 700;
+    font-size: 0.8em;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .toc a:hover .toc-num { background: var(--blue-100); color: var(--blue-700); }
+
+  /* ── DIAGRAM BOX ── */
+  .diagram-box {
+    background: var(--slate-900);
+    color: #c9d1d9;
+    padding: 24px 28px;
+    border-radius: var(--radius-lg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.55;
+    overflow-x: auto;
+    margin: 18px 0;
+    box-shadow: var(--shadow-lg);
+    white-space: pre;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    color: var(--slate-400);
+    font-size: 0.82em;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--slate-200);
+    font-weight: 500;
+  }
+  .footer strong { color: var(--slate-600); }
+
+  /* ── PAGE BREAK ── */
+  .page-break { page-break-before: always; }
+
+  /* ── INLINE BADGE ── */
+  .tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .tag.blue  { background: var(--blue-100);  color: var(--blue-700); }
+  .tag.cyan  { background: #ecfeff;           color: var(--cyan-600); }
+  .tag.green { background: #d1fae5;           color: var(--emerald-600); }
+  .tag.violet{ background: #ede9fe;           color: var(--violet-500); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero { padding: 40px 24px; }
+    .hero h1 { font-size: 1.8em; }
+    .stats-row { flex-direction: column; gap: 20px; margin: 0 16px; }
+    .content { padding: 28px 16px; }
+    .toc { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .principles { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media print {
+    body { background: white; font-size: 12px; }
+    .hero { padding: 36px 32px; }
+    .hero h1 { font-size: 2em; }
+    .content { padding: 32px 28px; max-width: 100%; }
+    .step-card:hover { transform: none; }
+    .card:hover { box-shadow: var(--shadow-sm); }
+    tr:hover td { background: var(--white); }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-icon">🔋</span>
+    <h1>VR Electric Vehicle</h1>
+    <p class="tagline">An immersive VR training simulation that teaches battery diagnostic procedures for electric vehicles — from safety gear to OBD-II data interpretation.</p>
+    <p class="byline">Built by <strong>Ziber Art Studio</strong> &nbsp;·&nbsp; July 2026</p>
+    <div class="hero-badges">
+      <span class="hero-badge unity">🎮 Unity 2022.3 LTS</span>
+      <span class="hero-badge xr">🥽 XR Interaction Toolkit 2.3.2</span>
+      <span class="hero-badge vr">🔌 Oculus + OpenXR</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats-row">
+  <div class="stat"><div class="stat-value cyan">6</div><div class="stat-label">Diagnostic Steps</div></div>
+  <div class="stat"><div class="stat-value">20+</div><div class="stat-label">C# Scripts</div></div>
+  <div class="stat"><div class="stat-value emerald">2</div><div class="stat-label">Target Platforms</div></div>
+  <div class="stat"><div class="stat-value violet">10</div><div class="stat-label">Core Systems</div></div>
+</div>
+
+<!-- ═══════════ CONTENT ═══════════ -->
+<div class="content">
+
+<!-- ── TOC ── -->
+<h2><span class="section-num">📑</span> Table of Contents</h2>
+<ol class="toc">
+  <li><a href="#overview"><span class="toc-num">1</span> Project Overview</a></li>
+  <li><a href="#tech"><span class="toc-num">2</span> Target Platforms &amp; Tech Stack</a></li>
+  <li><a href="#scene-flow"><span class="toc-num">3</span> Scene Flow &amp; Architecture</a></li>
+  <li><a href="#gameplay"><span class="toc-num">4</span> The 6-Step Diagnostic Procedure</a></li>
+  <li><a href="#scripts"><span class="toc-num">5</span> Script Reference</a></li>
+  <li><a href="#systems"><span class="toc-num">6</span> Core Systems</a></li>
+  <li><a href="#assets"><span class="toc-num">7</span> 3D Assets &amp; Resources</a></li>
+  <li><a href="#structure"><span class="toc-num">8</span> Project Folder Structure</a></li>
+  <li><a href="#build"><span class="toc-num">9</span> Build &amp; Deployment</a></li>
+</ol>
+
+<!-- ═══════════ 1. OVERVIEW ═══════════ -->
+<h2 id="overview"><span class="section-num">1</span> Project Overview</h2>
+
+<p><strong>VR Electric Vehicle</strong> is an immersive VR training application that teaches users how to perform battery diagnostics on electric vehicles. Designed for <strong>Meta Quest</strong> and <strong>Windows Standalone</strong> VR headsets, it walks trainees through a complete diagnostic workflow — from putting on safety equipment to interpreting OBD-II scanner data and answering condition-assessment questions.</p>
+
+<p>The project was built by <strong>Ziber Art Studio</strong> using a linear, guided-procedure model: each of the six steps must be completed before advancing, with real-time task tracking, visual feedback (checkmarks, highlights, UI panels), and a final scored results clipboard.</p>
+
+<div class="principles">
+  <div class="principle-card">
+    <div class="icon">🧭</div>
+    <div class="label">Guided Learning</div>
+    <div class="desc">Step-by-step instructions with arrow hints, toggle groups &amp; hover tooltips</div>
+  </div>
+  <div class="principle-card">
+    <div class="icon">✋</div>
+    <div class="label">Interactive VR</div>
+    <div class="desc">Grab gloves, glasses &amp; OBD scanner; trigger zones &amp; 3D UI toggles</div>
+  </div>
+  <div class="principle-card">
+    <div class="icon">✅</div>
+    <div class="label">Immediate Feedback</div>
+    <div class="desc">Checkmarks on task completion; instant correct/incorrect quiz results</div>
+  </div>
+  <div class="principle-card">
+    <div class="icon">📋</div>
+    <div class="label">Result Compilation</div>
+    <div class="desc">All task outcomes displayed on a final clipboard for review</div>
+  </div>
+</div>
+
+<!-- ═══════════ 2. TECH ═══════════ -->
+<h2 id="tech"><span class="section-num">2</span> Target Platforms &amp; Tech Stack</h2>
+
+<div class="card accent-blue">
+  <h3 class="card-title">🎯 Target Platforms</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Platform</th><th>Backend</th><th>VR Runtime</th></tr>
+      <tr><td><strong>Meta Quest</strong> (Android)</td><td>IL2CPP · ARM64</td><td>Oculus XR + OpenXR</td></tr>
+      <tr><td><strong>Windows Standalone</strong></td><td>Mono · x86_64</td><td>Oculus / OpenXR</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card accent-cyan">
+  <h3 class="card-title">🧱 Technology Stack</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><td><strong>Engine</strong></td><td>Unity 2022.3 LTS</td></tr>
+      <tr><td><strong>Rendering</strong></td><td>Universal Render Pipeline (URP 14.x) · Linear color space</td></tr>
+      <tr><td><strong>VR Framework</strong></td><td>XR Interaction Toolkit 2.3.2</td></tr>
+      <tr><td><strong>VR Plugins</strong></td><td>Oculus XR Plugin 4.0.0 · OpenXR Plugin 1.7.0</td></tr>
+      <tr><td><strong>UI System</strong></td><td>Unity UI (uGUI) + TextMesh Pro 3.0.6</td></tr>
+      <tr><td><strong>Input</strong></td><td>Unity Input System (New) · <code>activeInputHandler: 2</code></td></tr>
+      <tr><td><strong>Scripting</strong></td><td>C# — IL2CPP (Android) / Mono (Standalone)</td></tr>
+      <tr><td><strong>Template</strong></td><td><code>com.unity.template.urp-blank</code></td></tr>
+      <tr><td><strong>Third-party</strong></td><td>QuickOutline (Chris Nolet) · Oculus Hands animation · Kenney Audio (CC0)</td></tr>
+      <tr><td><strong>Testing</strong></td><td>Unity Test Framework 1.1.33</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ 3. SCENE FLOW ═══════════ -->
+<h2 id="scene-flow"><span class="section-num">3</span> Scene Flow &amp; Architecture</h2>
+
+<div class="flow-diagram">
+  <div class="flow-node highlight">🎬 1 Start Scene</div>
+  <span class="flow-arrow">→</span>
+  <div style="text-align:center;"><span class="flow-label">Fade<br>Transition</span></div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-node">🔧 2 Game Scene</div>
+</div>
+
+<div class="card accent-blue">
+  <h3 class="card-title">🔄 Scene Transition System</h3>
+  <p>The <code>SceneTransitionManager</code> singleton orchestrates scene changes with a fade-to-black effect using <code>FadeScreen</code>. The fade screen renders a full-screen material whose alpha is animated along an <code>AnimationCurve</code>, with configurable color and duration. Two modes are available:</p>
+  <ul>
+    <li><strong>Synchronous</strong> — <code>GoToScene(index)</code>: fade out → wait → load scene</li>
+    <li><strong>Asynchronous</strong> — <code>GoToSceneAsync(index)</code>: fade out → load in background → activate when ready</li>
+  </ul>
+</div>
+
+<div class="card accent-cyan">
+  <h3 class="card-title">🏠 Start Scene <span class="tag blue">Build Index 0</span></h3>
+  <p>The main menu scene managed by <code>GameStartMenu</code>. Contains three UI panels:</p>
+  <ul>
+    <li><strong>Main Menu</strong> — Start, Options, About, Quit buttons</li>
+    <li><strong>Options</strong> — Volume slider (<code>AudioListener.volume</code>) + Turn Type dropdown (Snap vs Continuous, persisted via <code>PlayerPrefs("turn")</code>)</li>
+    <li><strong>About</strong> — Project credits and information</li>
+  </ul>
+</div>
+
+<div class="card accent-violet">
+  <h3 class="card-title">🎮 Game Scene <span class="tag violet">Build Index 1</span></h3>
+  <p>The main gameplay scene containing the vehicle, battery compartment, OBD scanner, diagnostic UI, and all interactive elements. Controlled by <code>BaterryDiag</code> — the central gameplay controller.</p>
+</div>
+
+<!-- ═══════════ 4. GAMEPLAY ═══════════ -->
+<h2 id="gameplay"><span class="section-num">4</span> The 6-Step Diagnostic Procedure</h2>
+
+<div class="steps-grid">
+  <div class="step-card">
+    <div class="step-num">0</div>
+    <div class="step-title">Safety Equipment</div>
+    <div class="step-desc">Put on gloves and safety glasses. Grabbing gloves changes hand material color; donning glasses activates a "worn" visual on the player. Both tasks must be complete before advancing.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Open Battery Latch</div>
+    <div class="step-desc">An arrow hint appears pointing to the battery latch. The <code>OpenLatchUI</code> panel guides the user through releasing the latch to access the battery compartment.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Visual Inspection</div>
+    <div class="step-desc">Three toggle groups: <strong>Casing</strong>, <strong>Terminal</strong>, and <strong>Leakage</strong>. Each locks after selection. Vehicle exterior togglable (Full / Half / No Exterior) via <code>ToogleView</code>.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Connect OBD Scanner</div>
+    <div class="step-desc">Scanner and wire appear on a table. User grabs the scanner and brings it to the OBD port (trigger zone via <code>ColliderManager</code>). On connection, hover model swaps to "connected" state.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Read Diagnostic Data</div>
+    <div class="step-desc">OBD screen activates showing diagnostic parameters. Reading is optional — Next button is immediately available, but individual read statuses are tracked with checkmarks.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">5</div>
+    <div class="step-title">Quiz &amp; Results</div>
+    <div class="step-desc">Multiple-choice battery condition questions. Correct → green indicator with explanation. Incorrect → prompts review. <strong>Finish</strong> compiles all results to a clipboard summary.</div>
+  </div>
+</div>
+
+<!-- ═══════════ 5. SCRIPTS ═══════════ -->
+<div class="page-break"></div>
+<h2 id="scripts"><span class="section-num">5</span> Script Reference</h2>
+
+<h3>5.1 Core Gameplay Scripts <span class="tag blue">Assets/Script/</span></h3>
+<div class="table-wrap">
+<table>
+  <tr><th style="width:20%">Script</th><th style="width:25%">Role</th><th>Key Details</th></tr>
+  <tr>
+    <td><code>BaterryDiag</code></td>
+    <td>Central gameplay controller</td>
+    <td>Manages 6-step procedure, task tracking via <code>TaskGroup[]</code>, UI page switching, Next/Prev logic, step initialization, and final result compilation on the clipboard.</td>
+  </tr>
+  <tr>
+    <td><code>ToogleGroup</code></td>
+    <td>Inspection answer manager</td>
+    <td>Manages three toggle groups (casing, terminal, leakage). Validates answers, locks groups after selection, saves answers to <code>BaterryDiag.InspectionAnswer[]</code>.</td>
+  </tr>
+  <tr>
+    <td><code>ColliderManager</code></td>
+    <td>Trigger-zone interaction handler</td>
+    <td>Detects when objects enter trigger zones. Plays audio on success, marks tasks done, resets objects to original positions. Communicates with <code>BaterryDiag</code> via <code>TaskScenario</code> / <code>IndexTaskGroup</code> / <code>TaskIndex</code>.</td>
+  </tr>
+  <tr>
+    <td><code>ComponentConfig</code></td>
+    <td>Inspectable component behavior</td>
+    <td>Toggles Outline (QuickOutline) highlighting on/off and shows a "look-at-camera" UI hover panel that always faces the player's headset.</td>
+  </tr>
+  <tr>
+    <td><code>ToggleHover</code></td>
+    <td>Tooltip display</td>
+    <td>Shows/hides a hover canvas with TextMeshPro tooltip text on pointer enter/exit events (<code>IPointerEnterHandler</code> / <code>IPointerExitHandler</code>).</td>
+  </tr>
+  <tr>
+    <td><code>ToogleView</code></td>
+    <td>Vehicle exterior visibility</td>
+    <td>Toggles between Full Exterior, Half Exterior, and No Exterior views for inspection purposes.</td>
+  </tr>
+  <tr>
+    <td><code>slideShowManager</code></td>
+    <td>Slide navigation</td>
+    <td>Generic previous/next page navigator using a sprite array displayed on an Image component. Handles button enable/disable at boundaries.</td>
+  </tr>
+  <tr>
+    <td><code>CiihuyCurvedMesh</code></td>
+    <td>Procedural mesh generation</td>
+    <td>Creates curved meshes along Catmull-Rom spline paths. Works in both editor (<code>[ExecuteAlways]</code>) and runtime.</td>
+  </tr>
+  <tr>
+    <td><code>sceneLoader</code></td>
+    <td>Scene loading utility</td>
+    <td>Simple scene loading with async support and application quit functionality.</td>
+  </tr>
+  <tr>
+    <td><code>switchMaterial</code></td>
+    <td>Material switching <span class="tag green">stub</span></td>
+    <td>Placeholder for material-switching functionality (currently empty implementation).</td>
+  </tr>
+</table>
+</div>
+
+<h3>5.2 Core Systems Scripts <span class="tag cyan">Assets/Scripts/</span></h3>
+<div class="table-wrap">
+<table>
+  <tr><th style="width:25%">Script</th><th style="width:20%">Role</th><th>Key Details</th></tr>
+  <tr>
+    <td><code>AudioManager</code></td>
+    <td>Audio system singleton</td>
+    <td><code>DontDestroyOnLoad</code> singleton. Serializable <code>Sound</code> class (name, clip, volume, pitch, loop). Plays sounds by string name: <code>Play("name")</code>. Credits: Brackeys tutorial pattern.</td>
+  </tr>
+  <tr>
+    <td><code>UIAudio</code></td>
+    <td>UI audio hooks</td>
+    <td>Attaches to UI elements to play audio on pointer click, enter, and exit events via the AudioManager.</td>
+  </tr>
+  <tr>
+    <td><code>SceneTransitionManager</code></td>
+    <td>Scene switching singleton</td>
+    <td>Fade-to-black scene transitions. Supports sync and async loading. Works with <code>FadeScreen</code> for the visual fade effect.</td>
+  </tr>
+  <tr>
+    <td><code>FadeScreen</code></td>
+    <td>Full-screen fade renderer</td>
+    <td>Animates a material color property along an <code>AnimationCurve</code>. Configurable color, duration, and auto-fade-in on start.</td>
+  </tr>
+  <tr>
+    <td><code>GameStartMenu</code></td>
+    <td>Main menu controller</td>
+    <td>Manages Main Menu / Options / About panel visibility. Wires button onClick events. Triggers async scene transition on Start.</td>
+  </tr>
+  <tr>
+    <td><code>SetOptionFromUI</code></td>
+    <td>Options binding</td>
+    <td>Binds volume slider to <code>AudioListener.volume</code> and turn-type dropdown to <code>PlayerPrefs("turn")</code>.</td>
+  </tr>
+  <tr>
+    <td><code>SetTurnTypeFromPlayerPref</code></td>
+    <td>Locomotion type switcher</td>
+    <td>Enables/disables <code>ActionBasedSnapTurnProvider</code> vs <code>ActionBasedContinuousTurnProvider</code> based on stored PlayerPref.</td>
+  </tr>
+</table>
+</div>
+
+<h3>5.3 Third-Party &amp; Sample Scripts</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Script</th><th>Source</th><th>Role</th></tr>
+  <tr><td><code>Outline</code></td><td>QuickOutline</td><td>Mesh-based outline rendering with 5 modes (OutlineAll, Visible, Hidden, Silhouette, etc.)</td></tr>
+  <tr><td><code>AnimateHandOnInput</code></td><td>Oculus Hands</td><td>Drives hand animation via controller input (grip, trigger)</td></tr>
+  <tr><td><code>Moveliftcar</code></td><td>Lift Car asset</td><td>Keyboard-controlled lift table movement between forward/rear positions</td></tr>
+  <tr><td><code>Door</code></td><td>XRI Examples</td><td>Physics-based hinged door interaction</td></tr>
+  <tr><td><code>XRKnob / XRSlider / XRLever / XRPushButton / XRJoystick / XRGripButton</code></td><td>XRI Examples</td><td>3D UI controls for diegetic VR interfaces</td></tr>
+  <tr><td><code>Walkthrough / WalkthroughStep</code></td><td>XRI Examples</td><td>Guided VR walkthrough system with step triggers</td></tr>
+  <tr><td><code>Key / Lock / Keychain</code></td><td>XRI Examples</td><td>Key-lock socket interaction system</td></tr>
+  <tr><td><code>HighlightController / OutlineHighlight / MaterialHighlight</code></td><td>XRI Examples</td><td>Hover highlight variants for interactables</td></tr>
+</table>
+</div>
+
+<!-- ═══════════ 6. CORE SYSTEMS ═══════════ -->
+<div class="page-break"></div>
+<h2 id="systems"><span class="section-num">6</span> Core Systems</h2>
+
+<div class="card accent-blue">
+  <h3 class="card-title">📊 6.1 Task Tracking System</h3>
+  <p>The <code>TaskGroup</code> serializable class is the backbone of progress tracking:</p>
+<pre>public class TaskGroup {
+    public string TaskName;          // Display name for the step
+    public bool[] TaskStatus;        // Per-task completion flags
+    public Image[] TaskResultImage;  // Checkmark images for results clipboard
+}</pre>
+  <p><strong>How it works:</strong> Each step has a <code>TaskGroup</code> with N subtasks. As the user completes subtasks (via <code>ColliderManager</code> triggers, <code>Step0()</code>, <code>Step3()</code>, <code>Step4()</code>), <code>TaskStatus[i]</code> is set to <code>true</code>. <code>checkTask()</code> compares completed tasks against the total — when all are done, the Next button becomes interactable.</p>
+</div>
+
+<div class="card accent-cyan">
+  <h3 class="card-title">🔊 6.2 Audio System</h3>
+  <p><code>AudioManager</code> is a <code>DontDestroyOnLoad</code> singleton that persists across scene loads. <code>Sound</code> objects are configured in the Inspector with name, clip, volume, pitch, and loop settings. Playback is by string name lookup:</p>
+<pre>AudioManager.instance.Play("click_sound");</pre>
+  <p><code>UIAudio</code> hooks Unity UI pointer events (<code>IPointerClickHandler</code>, <code>IPointerEnterHandler</code>, <code>IPointerExitHandler</code>) to automatically trigger named audio clips on UI interaction.</p>
+</div>
+
+<div class="card accent-violet">
+  <h3 class="card-title">🚶 6.3 VR Locomotion</h3>
+  <p>Two turn providers from XR Interaction Toolkit:</p>
+  <ul>
+    <li><strong>Snap Turn</strong> — <code>ActionBasedSnapTurnProvider</code> — rotates the player in fixed angular increments</li>
+    <li><strong>Continuous Turn</strong> — <code>ActionBasedContinuousTurnProvider</code> — smooth rotation</li>
+  </ul>
+  <p>The user's preference is stored in <code>PlayerPrefs("turn")</code> and applied at startup by <code>SetTurnTypeFromPlayerPref</code>, which enables one provider and disables the other.</p>
+</div>
+
+<div class="card accent-blue">
+  <h3 class="card-title">🤝 6.4 Interaction System</h3>
+  <p><strong>Trigger Zones</strong> — <code>ColliderManager</code> uses <code>OnTriggerEnter</code> to detect when tagged objects enter a zone. Configurable via <code>CollideWithTag</code>. Supports multiple scenarios through <code>TaskScenario</code> branching.</p>
+  <p><strong>Outline Highlighting</strong> — <code>ComponentConfig</code> toggles QuickOutline's <code>Outline</code> component on inspectable objects, with a companion UI hover panel that billboards toward the player's headset.</p>
+  <p><strong>Tooltips</strong> — <code>ToggleHover</code> shows TextMeshPro tooltip panels on pointer hover.</p>
+  <p><strong>3D UI Controls</strong> — XRI Examples provide knobs, sliders, levers, push buttons, joysticks, and grip buttons for diegetic VR interfaces.</p>
+</div>
+
+<!-- ═══════════ 7. ASSETS ═══════════ -->
+<h2 id="assets"><span class="section-num">7</span> 3D Assets &amp; Resources</h2>
+<div class="table-wrap">
+<table>
+  <tr><th>Asset</th><th>Path</th><th>Contents</th></tr>
+  <tr>
+    <td><strong>🚗 Lift Car</strong></td>
+    <td><code>Assets/Lift Car/</code></td>
+    <td>Car lift table (FBX model, PSD textures, prefab) + <code>Moveliftcar.cs</code> for keyboard-driven lift movement</td>
+  </tr>
+  <tr>
+    <td><strong>🔧 Scissor Lift</strong></td>
+    <td><code>Assets/3D/Sccicor Lift Table/</code></td>
+    <td>Scissor lift OBJ model with texture maps</td>
+  </tr>
+  <tr>
+    <td><strong>🪑 Furniture</strong></td>
+    <td><code>Assets/Tables and Chairs/</code></td>
+    <td>10 prefabs (5 tables + 5 chairs) with PBR texture maps (height, metallic, normal, roughness) + sample scene</td>
+  </tr>
+  <tr>
+    <td><strong>✋ Oculus Hands</strong></td>
+    <td><code>Assets/Plugins/Oculus Hands/</code></td>
+    <td>Left/right hand model prefabs with <code>AnimateHandOnInput</code> script for controller-driven animation</td>
+  </tr>
+  <tr>
+    <td><strong>✨ QuickOutline</strong></td>
+    <td><code>Assets/QuickOutline/</code></td>
+    <td>Chris Nolet's mesh outline system — shaders, materials, <code>Outline.cs</code> component + sample scene</td>
+  </tr>
+  <tr>
+    <td><strong>📦 XRI Examples</strong></td>
+    <td><code>Assets/XRI_Examples/</code></td>
+    <td>Reference implementations: physics doors, socket interactors, 3D UI controls, hover highlights, walkthrough system, props + comprehensive demo scene</td>
+  </tr>
+  <tr>
+    <td><strong>🎒 XRI Starter Assets</strong></td>
+    <td><code>Assets/Samples/XRI Toolkit/2.3.2/</code></td>
+    <td>Preconfigured XR Origin, teleportation, interactors, device simulator, and UI samples</td>
+  </tr>
+  <tr>
+    <td><strong>🔊 Kenney Audio</strong></td>
+    <td><code>Assets/Audio/Kenney Audio/</code></td>
+    <td>4 CC0-licensed audio packs: digital, interface sounds, sci-fi, UI audio (130+ clips)</td>
+  </tr>
+</table>
+</div>
+
+<!-- ═══════════ 8. STRUCTURE ═══════════ -->
+<h2 id="structure"><span class="section-num">8</span> Project Folder Structure</h2>
+<pre class="tree">
+VR-Electric-Vehicle/
+├── Assets/
+│   ├── Scripts/              ← Core systems (Audio, Menu, Scene, Options)
+│   │   ├── AudioManager.cs           · Singleton audio playback
+│   │   ├── UIAudio.cs               · UI event → audio hooks
+│   │   ├── FadeScreen.cs            · Full-screen fade with AnimationCurve
+│   │   ├── SceneTransitionManager.cs · Scene switching with fade
+│   │   ├── GameStartMenu.cs         · Main menu controller
+│   │   ├── SetOptionFromUI.cs       · Volume + turn type binding
+│   │   └── SetTurnTypeFromPlayerPref.cs · Snap vs Continuous turn
+│   │
+│   ├── Script/               ← Gameplay mechanics
+│   │   ├── BaterryDiag.cs           ⭐ Central gameplay controller
+│   │   ├── ToogleGroup.cs           · Inspection answer validation
+│   │   ├── ColliderManager.cs       · Trigger zone interactions
+│   │   ├── ComponentConfig.cs       · Outline highlighting + billboard UI
+│   │   ├── ToggleHover.cs           · Tooltip display
+│   │   ├── ToogleView.cs            · Vehicle exterior visibility
+│   │   ├── slideShowManager.cs      · Slide navigation
+│   │   ├── CiihuyCurvedMesh.cs      · Spline mesh generator
+│   │   ├── sceneLoader.cs           · Scene loading utility
+│   │   └── switchMaterial.cs        · Material switch (stub)
+│   │
+│   ├── Scenes/               ← Build scenes + backups
+│   │   ├── 1 Start Scene.unity      · Main menu (build index 0)
+│   │   ├── 2 Game Scene.unity       · Gameplay (build index 1)
+│   │   └── Backup *.unity           · 7 backup variations
+│   │
+│   ├── Prefabs/              ← Project prefabs
+│   │   ├── Fader Screen.prefab
+│   │   └── Transition Manager.prefab
+│   │
+│   ├── 3D/                   ← 3D models & textures
+│   ├── Lift Car/             ← Car lift model + script
+│   ├── Tables and Chairs/    ← 10 furniture prefabs + PBR textures
+│   ├── QuickOutline/         ← Outline highlight system
+│   ├── Plugins/Oculus Hands/ ← Hand models & animation
+│   ├── Samples/              ← XRI Toolkit starter assets
+│   ├── XRI_Examples/         ← XRI reference implementations
+│   ├── UI/                   ← Sprites, fonts, TMP assets
+│   └── Audio/                ← Kenney CC0 audio packs
+│
+├── ProjectSettings/          ← Unity project configuration
+├── Packages/                 ← Package manifest
+├── README.md
+└── CLAUDE.md
+</pre>
+
+<!-- ═══════════ 9. BUILD ═══════════ -->
+<div class="page-break"></div>
+<h2 id="build"><span class="section-num">9</span> Build &amp; Deployment</h2>
+
+<div class="card accent-blue">
+  <h3 class="card-title">📦 9.1 Build Scenes</h3>
+  <p>The project's build settings reference two scenes in <code>ProjectSettings/EditorBuildSettings.asset</code>:</p>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Index</th><th>Scene</th><th>Editor Name</th></tr>
+      <tr><td>0</td><td><code>1 Start Scene.unity</code></td><td>Backup 7</td></tr>
+      <tr><td>1</td><td><code>2 Game Scene.unity</code></td><td>Backup 6</td></tr>
+    </table>
+  </div>
+  <p>⚠️ Build settings reference "Backup 6" and "Backup 7" names. When changing scenes, update <code>EditorBuildSettings.asset</code> accordingly.</p>
+</div>
+
+<div class="card accent-cyan">
+  <h3 class="card-title">🔨 9.2 Building the Project</h3>
+  <ol>
+    <li>Open the project in <strong>Unity 2022.3 LTS</strong> (or compatible version)</li>
+    <li>Go to <strong>File → Build Settings</strong></li>
+    <li>Select target platform:
+      <ul>
+        <li><strong>Android</strong> for Meta Quest (IL2CPP, ARM64)</li>
+        <li><strong>Windows Standalone</strong> for PC VR (Mono, x86_64)</li>
+      </ul>
+    </li>
+    <li>Ensure both scenes are in the build list in the correct order</li>
+    <li>Click <strong>Build</strong> (or Build and Run for a connected device)</li>
+  </ol>
+  <p>There is no CI/CD pipeline — builds are made locally through the Unity Editor.</p>
+</div>
+
+<div class="card accent-violet">
+  <h3 class="card-title">⚙️ 9.3 Define Symbols &amp; Testing</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Symbol</th><th>Applied To</th></tr>
+      <tr><td><code>USE_INPUT_SYSTEM_POSE_CONTROL</code></td><td>Android, Standalone, Windows Store Apps</td></tr>
+    </table>
+  </div>
+  <p style="margin-top:12px;"><strong>Testing:</strong> Run via <strong>Window → General → Test Runner</strong>. Unity Test Framework 1.1.33 is installed but no pre-existing test scripts exist — PlayMode and EditMode tests would need to be authored for new development.</p>
+</div>
+
+<!-- ═══════════ APPENDIX ═══════════ -->
+<h2 style="margin-top:48px;"><span class="section-num">📐</span> Appendix: Class Dependency Diagram</h2>
+<div class="diagram-box">
+┌─────────────────────────────┐
+│      GameStartMenu          │  Start Scene
+│  StartGame() → GoToScene(1) │
+└────────────┬────────────────┘
+             │
+    ┌────────▼────────────┐
+    │ SceneTransitionMgr  │  Singleton
+    │  + FadeScreen       │
+    │  GoToSceneAsync()   │
+    └────────┬────────────┘
+             │ loads
+    ┌────────▼────────────┐
+    │     BaterryDiag     │  Game Scene — Central Controller
+    │                     │
+    │  TaskGroup[] Groups │  6 steps, each with TaskStatus[]
+    │  checkTask()        │  enables Next button when done
+    │  ResultPractice()   │  compiles clipboard results
+    └──┬──────┬──────┬────┘
+       │      │      │
+  ┌────▼┐ ┌───▼──┐ ┌─▼──────┐
+  │Toogle│ │Collid│ │Component│
+  │Group │ │erMgr │ │Config   │
+  │      │ │      │ │         │
+  │casing│ │trigger│ │Outline  │
+  │term. │ │zones │ │UI hover │
+  │leak. │ │audio │ │billboard│
+  └──────┘ └──────┘ └─────────┘
+</div>
+
+<div class="footer">
+  <p><strong>VR Electric Vehicle</strong> — Project Documentation &nbsp;·&nbsp; Ziber Art Studio &nbsp;·&nbsp; July 2026</p>
+</div>
+
+</div><!-- /content -->
+
+</body>
+</html>
