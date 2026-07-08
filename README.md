@@ -43,3 +43,51 @@ Players follow a guided multi-step diagnostic procedure:
 | `Assets/Scenes/` | Scene files and backups |
 | `Assets/3D/` | 3D models and textures |
 | `Assets/QuickOutline/` | Mesh outline system for object highlighting |
+
+---
+
+# VR Electric Vehicle (Bahasa Indonesia)
+
+**VR Electric Vehicle** adalah simulasi pelatihan VR untuk diagnostik baterai kendaraan listrik, dibuat oleh **Ziber Art Studio** menggunakan Unity 2022.3 LTS.
+
+Pemain mengikuti prosedur diagnostik langkah demi langkah:
+
+1. **Keselamatan Utama** — Kenakan sarung tangan dan kacamata pengaman
+2. **Akses Baterai** — Buka kait kompartemen baterai
+3. **Inspeksi Visual** — Periksa casing baterai, terminal, dan cek kebocoran
+4. **Koneksi OBD** — Sambungkan pemindai OBD-II ke kendaraan
+5. **Pembacaan Data** — Baca dan interpretasikan data diagnostik dari layar OBD
+6. **Kuis** — Jawab pertanyaan tentang kondisi baterai untuk menyelesaikan diagnosis
+
+## Platform Target
+
+- **Meta Quest** (Android / IL2CPP)
+- **Windows Standalone** (Oculus / OpenXR)
+
+## Teknologi
+
+| Kategori | Teknologi |
+|----------|-----------|
+| Mesin | Unity 2022.3 LTS |
+| Rendering | Universal Render Pipeline (URP) |
+| Framework VR | XR Interaction Toolkit + Oculus XR Plugin + OpenXR |
+| UI | Unity UI (uGUI) + TextMesh Pro |
+| Input | Unity Input System (New) |
+| Skrip | C# (IL2CPP di Android, Mono di Standalone) |
+
+## Memulai
+
+1. Buka proyek di **Unity 2022.3 LTS** (atau versi kompatibel)
+2. Buka `Assets/Scenes/1 Start Scene.unity` untuk menu utama
+3. Buka `Assets/Scenes/2 Game Scene.unity` untuk scene permainan
+4. Build melalui **File → Build Settings** untuk platform target
+
+## Struktur Proyek
+
+| Jalur | Konten |
+|------|--------|
+| `Assets/Scripts/` | Sistem inti (Audio, Menu, Scene, Opsi) |
+| `Assets/Script/` | Mekanik permainan (diagnostik, inspeksi, interaksi) |
+| `Assets/Scenes/` | File scene dan cadangan |
+| `Assets/3D/` | Model 3D dan tekstur |
+| `Assets/QuickOutline/` | Sistem outline mesh untuk penyorotan objek |
