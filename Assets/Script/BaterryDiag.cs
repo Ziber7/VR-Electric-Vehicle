@@ -21,7 +21,6 @@ public class BaterryDiag : MonoBehaviour
     public Sprite CheckHiRes;
     public GameObject ClipboardResult;
 
-
     [Header("UI Control")]
 
     public Image SlidePage;
@@ -36,9 +35,12 @@ public class BaterryDiag : MonoBehaviour
     public GameObject FinishButton;
 
     [Header("Step 1")]
-    [SerializeField] private Material handMaterial;
-    public Color StartColor;
-    public Color customColor;
+    //[SerializeField] private Material handMaterial;
+
+    [SerializeField] private GameObject LeftHand;
+    [SerializeField] private GameObject RightHand;
+    [SerializeField] private Material GloveMaterial;
+
     public GameObject Gloves;
     public GameObject Glasses;
     public GameObject WearedGlasses;
@@ -78,6 +80,9 @@ public class BaterryDiag : MonoBehaviour
     public Sprite CorrectAnswer;
     public Sprite IncorrectAnswer;
 
+    [Header("Finished Objects")]
+    public GameObject[] GlovesUnwear;
+    public GameObject GlassesUnwear;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -90,7 +95,7 @@ public class BaterryDiag : MonoBehaviour
     void Start()
     {
         SlidePage.sprite = SlideSprites[0];
-        handMaterial.color = StartColor;
+        // handMaterial.color = StartColor;
 
         // Button Prev Interactable False
         prevButton.interactable = false;
@@ -231,7 +236,12 @@ public class BaterryDiag : MonoBehaviour
         {
             case 0:
                 // Change material glove
-                handMaterial.color = customColor;
+
+                // Change material of the hand to glove material
+                SkinnedMeshRenderer leftHandRenderer = LeftHand.GetComponent<SkinnedMeshRenderer>();
+                leftHandRenderer.material = GloveMaterial;
+                SkinnedMeshRenderer rightHandRenderer = RightHand.GetComponent<SkinnedMeshRenderer>();
+                rightHandRenderer.material = GloveMaterial;
 
                 Gloves.SetActive(false);
 
@@ -403,6 +413,15 @@ public class BaterryDiag : MonoBehaviour
             TaskGroups[5].TaskResultImage[0].enabled = true;
             TaskGroups[5].TaskResultImage[0].sprite = IncorrectAnswer;
         }
+
+
+        // Set Equipment Unwear
+        for (int i = 0; i < GlovesUnwear.Length; i++)
+        {
+            GlovesUnwear[i].SetActive(true);
+        }
+
+        GlassesUnwear.SetActive(true);
 
     }
 
