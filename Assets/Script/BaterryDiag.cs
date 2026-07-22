@@ -421,7 +421,8 @@ public class BaterryDiag : MonoBehaviour
             GlovesUnwear[i].SetActive(true);
         }
 
-        GlassesUnwear.SetActive(true);
+        GlassesManager GM = GlassesUnwear.GetComponent<GlassesManager>();
+        GM.AfterPractice();
 
     }
 

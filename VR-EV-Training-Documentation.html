@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Dokumentasi Skenario VR — Pelatihan Diagnostik & Perawatan Baterai EV</title>
+<style>
+  @page { margin: 20mm 18mm; size: A4; }
+  @media print {
+    body { font-size: 10pt; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    .cover { page-break-after: always; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.7; color: #1a1a2e; max-width: 1100px; margin: 0 auto; padding: 20px; background: #f8f9fa; }
+  h1 { font-size: 2em; color: #0f3460; border-bottom: 3px solid #e94560; padding-bottom: 8px; margin: 30px 0 15px; }
+  h2 { font-size: 1.5em; color: #16213e; background: #e94560; color: #fff; padding: 10px 16px; border-radius: 6px; margin: 30px 0 15px; }
+  h3 { font-size: 1.2em; color: #0f3460; border-left: 4px solid #e94560; padding-left: 10px; margin: 22px 0 10px; }
+  h4 { font-size: 1.05em; color: #533483; margin: 16px 0 8px; }
+  p, li { margin-bottom: 8px; }
+  ul, ol { margin-left: 24px; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95em; }
+  th { background: #0f3460; color: #fff; padding: 10px 12px; text-align: left; }
+  td { border: 1px solid #ddd; padding: 8px 12px; }
+  tr:nth-child(even) { background: #f2f2f2; }
+  .cover { text-align: center; padding: 120px 20px 80px; background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #e94560 100%); color: #fff; border-radius: 12px; margin-bottom: 40px; }
+  .cover h1 { font-size: 2.4em; border: none; color: #fff; margin-bottom: 20px; }
+  .cover .subtitle { font-size: 1.3em; color: #f0f0f0; margin-bottom: 10px; }
+  .cover .meta { margin-top: 60px; font-size: 0.95em; color: #ccc; }
+  .toc { background: #fff; padding: 24px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+  .toc h2 { background: none; color: #0f3460; padding: 0; margin: 0 0 16px; }
+  .toc ul { list-style: none; margin-left: 0; }
+  .toc li { padding: 4px 0; border-bottom: 1px dotted #ddd; }
+  .toc a { color: #16213e; text-decoration: none; }
+  .toc a:hover { color: #e94560; }
+  .diagram { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin: 20px 0; text-align: center; overflow-x: auto; }
+  .diagram svg { max-width: 100%; }
+  .callout { padding: 14px 18px; border-radius: 6px; margin: 14px 0; font-size: 0.95em; }
+  .callout-unity { background: #e8f5e9; border-left: 5px solid #2e7d32; }
+  .callout-info { background: #e3f2fd; border-left: 5px solid #1565c0; }
+  .callout-warn { background: #fff3e0; border-left: 5px solid #ef6c00; }
+  .callout-ref { background: #fce4ec; border-left: 5px solid #c62828; }
+  .step-flow { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0; }
+  .step-box { background: #0f3460; color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 0.85em; white-space: nowrap; }
+  .step-box.active { background: #e94560; }
+  .ref-list { font-size: 0.9em; }
+  .ref-list li { margin-bottom: 6px; }
+  footer { text-align: center; padding: 30px; color: #888; font-size: 0.85em; border-top: 1px solid #ddd; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- COVER -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <h1>Dokumentasi Skenario VR</h1>
+  <div class="subtitle">Pelatihan Diagnostik, Penggantian, dan Perawatan<br>Baterai Kendaraan Listrik (EV)</div>
+  <div class="subtitle" style="font-size:1.1em;margin-top:16px;">Ziber Art Studio — VR Electric Vehicle</div>
+  <div class="meta">
+    Unity 2022.3 LTS &bull; XR Interaction Toolkit &bull; Meta Quest / Windows Standalone<br>
+    Disusun: Juli 2026
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>Daftar Isi</h2>
+  <ol>
+    <li><a href="#overview">Gambaran Umum &amp; Flowchart Skenario</a></li>
+    <li><a href="#scenario1">Skenario 1 — Diagnosis Kondisi Baterai</a>
+      <ul>
+        <li><a href="#s1t0">Tahap 0: Persiapan &amp; Safety Briefing</a></li>
+        <li><a href="#s1t1">Tahap 1: Akses Kompartemen Baterai</a></li>
+        <li><a href="#s1t2">Tahap 2: Inspeksi Visual</a></li>
+        <li><a href="#s1t3">Tahap 3: Pemasangan Alat Diagnostik</a></li>
+        <li><a href="#s1t4">Tahap 4: Pembacaan Parameter</a></li>
+        <li><a href="#s1t5">Tahap 5: Interpretasi &amp; Kuis Mini</a></li>
+        <li><a href="#s1t6">Tahap 6: Penutup &amp; Pelepasan APD</a></li>
+      </ul>
+    </li>
+    <li><a href="#scenario2">Skenario 2 — Penggantian Baterai</a>
+      <ul>
+        <li><a href="#s2t0">Tahap 0: Safety Briefing &amp; APD</a></li>
+        <li><a href="#s2t1">Tahap 1: Safety Lockout / HV Disconnect</a></li>
+        <li><a href="#s2t2">Tahap 2: Pelepasan Komponen Pendukung</a></li>
+        <li><a href="#s2t3">Tahap 3: Pelepasan Baterai Utama</a></li>
+        <li><a href="#s2t4">Tahap 4: Pemasangan Baterai Baru</a></li>
+        <li><a href="#s2t5">Tahap 5: Pemasangan Service Plug</a></li>
+        <li><a href="#s2t6">Tahap 6: Verifikasi Pasca-Penggantian</a></li>
+        <li><a href="#s2t7">Tahap 7: Penutup &amp; Pelepasan APD</a></li>
+      </ul>
+    </li>
+    <li><a href="#scenario3">Skenario 3 — Maintenance Ringan Baterai</a>
+      <ul>
+        <li><a href="#s3t0">Tahap 0: Safety Briefing &amp; APD</a></li>
+        <li><a href="#s3t1">Tahap 1: Identifikasi Area Bermasalah</a></li>
+        <li><a href="#s3t2">Tahap 2: Pembersihan Terminal</a></li>
+        <li><a href="#s3t3">Tahap 3: Pengencangan Konektor</a></li>
+        <li><a href="#s3t4">Tahap 4: Pemeriksaan Tambahan</a></li>
+        <li><a href="#s3t5">Tahap 5: Verifikasi Pasca-Maintenance</a></li>
+        <li><a href="#s3t6">Tahap 6: Penutup</a></li>
+      </ul>
+    </li>
+    <li><a href="#unity-reference">Referensi Unity API &amp; Package</a></li>
+    <li><a href="#references">Daftar Referensi</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="overview">1. Gambaran Umum &amp; Flowchart Skenario</h1>
+
+<p>Dokumen ini menjabarkan tiga skenario pelatihan VR untuk teknisi kendaraan listrik (EV), dirancang sebagai satu alur pembelajaran utuh dengan Skenario 1 (Diagnosis) sebagai titik masuk. Berdasarkan hasil diagnosis, peserta diarahkan ke tiga jalur berbeda:</p>
+
+<ul>
+  <li><strong>Jalur (a) "Baik"</strong> — Baterai layak pakai, laporan selesai. Jalur terpendek.</li>
+  <li><strong>Jalur (b) "Maintenance Ringan"</strong> — Lanjut ke Skenario 3, yang dapat bereskalasi ke Skenario 2 jika masalah tidak teratasi.</li>
+  <li><strong>Jalur (c) "Perlu Ganti"</strong> — Langsung menuju Skenario 2 (Penggantian Baterai).</li>
+</ul>
+
+<div class="diagram">
+<svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#e94560"/>
+    </marker>
+    <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f3460"/><stop offset="100%" stop-color="#16213e"/></linearGradient>
+    <linearGradient id="grad2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2e7d32"/><stop offset="100%" stop-color="#1b5e20"/></linearGradient>
+    <linearGradient id="grad3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef6c00"/><stop offset="100%" stop-color="#e65100"/></linearGradient>
+    <linearGradient id="grad4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c62828"/><stop offset="100%" stop-color="#b71c1c"/></linearGradient>
+  </defs>
+  <!-- Skenario 1 -->
+  <rect x="300" y="20" width="300" height="60" rx="10" fill="url(#grad1)"/>
+  <text x="450" y="48" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">Skenario 1</text>
+  <text x="450" y="66" text-anchor="middle" fill="#ccc" font-size="11">Diagnosis Kondisi Baterai</text>
+  <!-- Branches -->
+  <line x1="450" y1="80" x2="450" y2="120" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Diamond -->
+  <polygon points="450,120 560,180 450,240 340,180" fill="#fff" stroke="#e94560" stroke-width="2"/>
+  <text x="450" y="177" text-anchor="middle" fill="#16213e" font-size="12" font-weight="bold">Hasil</text>
+  <text x="450" y="192" text-anchor="middle" fill="#16213e" font-size="12" font-weight="bold">Diagnosis?</text>
+  <!-- Branch A -->
+  <line x1="340" y1="180" x2="120" y2="180" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="230" y="172" text-anchor="middle" fill="#2e7d32" font-size="11">(a) Baik</text>
+  <rect x="20" y="195" width="200" height="36" rx="8" fill="url(#grad2)"/>
+  <text x="120" y="218" text-anchor="middle" fill="#fff" font-size="12">Laporan "Layak Pakai"</text>
+  <!-- Branch B -->
+  <line x1="450" y1="240" x2="450" y2="290" stroke="#ef6c00" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="510" y="268" fill="#ef6c00" font-size="11">(b) Maintenance Ringan</text>
+  <rect x="300" y="292" width="300" height="56" rx="10" fill="url(#grad3)"/>
+  <text x="450" y="316" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Skenario 3</text>
+  <text x="450" y="336" text-anchor="middle" fill="#ffe0b2" font-size="11">Maintenance Ringan Baterai</text>
+  <!-- Branch C -->
+  <line x1="560" y1="180" x2="780" y2="180" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="670" y="172" text-anchor="middle" fill="#c62828" font-size="11">(c) Perlu Ganti</text>
+  <rect x="680" y="195" width="200" height="36" rx="8" fill="url(#grad4)"/>
+  <text x="780" y="218" text-anchor="middle" fill="#fff" font-size="12">→ Skenario 2</text>
+  <!-- S3 branch to S2 -->
+  <line x1="450" y1="348" x2="450" y2="390" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="515" y="375" fill="#c62828" font-size="10">eskalasi jika tidak teratasi</text>
+  <!-- Skenario 2 -->
+  <rect x="250" y="395" width="400" height="60" rx="10" fill="url(#grad4)"/>
+  <text x="450" y="420" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">Skenario 2</text>
+  <text x="450" y="440" text-anchor="middle" fill="#ffcdd2" font-size="11">Penggantian Baterai</text>
+  <!-- S2 finish -->
+  <line x1="450" y1="455" x2="450" y2="495" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="320" y="497" width="260" height="22" rx="6" fill="#555"/>
+  <text x="450" y="513" text-anchor="middle" fill="#fff" font-size="11">Laporan Pekerjaan Selesai</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 1:</strong> Flowchart tiga skenario pelatihan EV — Skenario 1 sebagai titik masuk bercabang tiga jalur.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SCENARIO 1 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="scenario1">2. Skenario 1 — Diagnosis Kondisi Baterai</h1>
+
+<div class="callout callout-info">
+  <strong>Tujuan Pembelajaran:</strong> Setelah menyelesaikan skenario ini, peserta mampu: (1) menerapkan prosedur keselamatan (APD), (2) melakukan inspeksi visual kondisi fisik baterai, (3) menggunakan alat diagnostik untuk membaca parameter baterai, (4) menginterpretasikan hasil pembacaan, (5) mengambil keputusan kelayakan baterai.
+</div>
+
+<div class="step-flow">
+  <span class="step-box active">Tahap 0</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 1</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 2</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 3</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 4</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 5</span><span style="padding-top:10px">→</span>
+  <span class="step-box">Tahap 6</span>
+</div>
+
+<!-- S1 T0 -->
+<h2 id="s1t0">2.0 Tahap 0 — Persiapan &amp; Safety Briefing</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta memulai di area bengkel virtual. Mobil EV sudah terparkir dengan akses ke kompartemen baterai terlihat namun tertutup. Voice-over memberikan instruksi pembuka: <em>"Sebelum memeriksa baterai, pastikan kendaraan dalam kondisi aman dan Anda menggunakan APD yang sesuai."</em></p>
+<p>Sistem menampilkan <strong>checklist APD pada UI</strong>: sarung tangan isolasi tegangan tinggi (wajib), kacamata pelindung (opsional). Peserta mengambil item APD dari rak alat (grab) dan "memakaikannya" ke avatar — drag ke tangan/wajah, atau klik pada body part yang relevan. <strong>Tombol "Lanjut" baru aktif setelah seluruh APD wajib terpasang.</strong> Jika peserta mencoba skip, sistem menampilkan reminder.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="180" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Player -->
+  <circle cx="100" cy="100" r="25" fill="#0f3460"/>
+  <text x="100" y="105" text-anchor="middle" fill="#fff" font-size="10">Avatar</text>
+  <!-- APD Rack -->
+  <rect x="250" y="40" width="80" height="120" rx="5" fill="#795548"/>
+  <text x="290" y="100" text-anchor="middle" fill="#fff" font-size="10">Rak APD</text>
+  <text x="290" y="115" text-anchor="middle" fill="#ffcc80" font-size="8">Gloves</text>
+  <text x="290" y="128" text-anchor="middle" fill="#ffcc80" font-size="8">Glasses</text>
+  <!-- Arrows -->
+  <line x1="125" y1="90" x2="245" y2="70" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+  <text x="180" y="62" text-anchor="middle" fill="#e94560" font-size="9">Grab APD</text>
+  <!-- UI Checklist -->
+  <rect x="420" y="30" width="180" height="100" rx="6" fill="#fff" stroke="#0f3460" stroke-width="2"/>
+  <text x="510" y="52" text-anchor="middle" fill="#0f3460" font-size="10" font-weight="bold">Checklist APD</text>
+  <text x="440" y="72" fill="#2e7d32" font-size="9">☑ Sarung Tangan</text>
+  <text x="440" y="88" fill="#888" font-size="9">☐ Kacamata (opsional)</text>
+  <text x="440" y="108" fill="#888" font-size="9">[Lanjut] → disabled</text>
+  <!-- Arrow to UI -->
+  <line x1="330" y1="80" x2="415" y2="60" stroke="#1565c0" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="370" y="52" text-anchor="middle" fill="#1565c0" font-size="8">Update UI</text>
+  <!-- EV Car -->
+  <rect x="620" y="70" width="100" height="50" rx="6" fill="#455a64"/>
+  <text x="670" y="100" text-anchor="middle" fill="#fff" font-size="9">Mobil EV</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 2:</strong> Diagram alur Tahap 0 — peserta mengambil APD dari rak, UI checklist ter-update.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Membuat item APD (gloves, glasses) dapat di-grab menggunakan XR controller</td></tr>
+    <tr><td><code>HandGrabRestriction</code> (custom)</td><td>Membatasi grab item tertentu hanya ke tangan kiri/kanan yang sesuai</td></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Singleton manager — mendeteksi snap APD ke socket avatar, trigger task complete</td></tr>
+    <tr><td><code>OnTriggerEnter()</code></td><td>Mendeteksi saat item APD masuk ke zona snap (tangan/wajah avatar)</td></tr>
+    <tr><td><code>Button.interactable</code></td><td>Enable/disable tombol "Lanjut" berdasarkan status checklist APD</td></tr>
+    <tr><td><code>AudioSource.Play()</code></td><td>Voice-over instruksi dan warning audio saat skip APD</td></tr>
+    <tr><td><code>Canvas</code> (World Space)</td><td>UI checklist APD mengambang di depan peserta</td></tr>
+    <tr><td><code>TextMeshProUGUI</code></td><td>Teks checklist APD dengan status centang dinamis</td></tr>
+  </table>
+</div>
+
+<!-- S1 T1 -->
+<div class="page-break"></div>
+<h2 id="s1t1">2.1 Tahap 1 — Akses Kompartemen Baterai (dengan Validasi APD)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta diarahkan ke titik akses baterai. Saat mencoba membuka cover/panel (grab + pull, atau tekan latch), <strong>sistem mengecek state APD pada avatar</strong>:</p>
+<ul>
+  <li><strong>APD belum lengkap:</strong> interaksi diblokir, muncul ikon peringatan + suara buzzer + voice-over <em>"Pasang sarung tangan isolasi terlebih dahulu sebelum membuka panel ini."</em></li>
+  <li><strong>APD lengkap:</strong> panel terbuka, tampil visual pack baterai dengan hotspot interaktif untuk tahap berikutnya.</li>
+</ul>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 170" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="150" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Avatar hand reaching -->
+  <circle cx="80" cy="85" r="20" fill="#0f3460"/>
+  <text x="80" y="90" text-anchor="middle" fill="#fff" font-size="8">Hand</text>
+  <!-- Latch/Panel -->
+  <rect x="180" y="55" width="120" height="60" rx="5" fill="#78909c" stroke="#e94560" stroke-width="2"/>
+  <text x="240" y="80" text-anchor="middle" fill="#fff" font-size="10">Panel Baterai</text>
+  <text x="240" y="95" text-anchor="middle" fill="#ffcc80" font-size="8">(Latch)</text>
+  <!-- Decision -->
+  <polygon points="390,85 440,130 390,175 340,130" fill="#fff" stroke="#ef6c00" stroke-width="2"/>
+  <text x="390" y="127" text-anchor="middle" fill="#16213e" font-size="9" font-weight="bold">APD?</text>
+  <!-- NO path -->
+  <line x1="340" y1="130" x2="340" y2="50" stroke="#c62828" stroke-width="2"/>
+  <line x1="340" y1="50" x2="500" y2="30" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="505" y="18" width="130" height="30" rx="5" fill="#ffcdd2" stroke="#c62828"/>
+  <text x="570" y="38" text-anchor="middle" fill="#c62828" font-size="9">⚠ Blokir + Warning</text>
+  <!-- YES path -->
+  <line x1="440" y1="130" x2="520" y2="100" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="525" y="85" width="130" height="30" rx="5" fill="#c8e6c9" stroke="#2e7d32"/>
+  <text x="590" y="105" text-anchor="middle" fill="#2e7d32" font-size="9">✓ Panel Terbuka</text>
+  <!-- Battery pack revealed -->
+  <rect x="670" y="70" width="60" height="40" rx="4" fill="#ff9800"/>
+  <text x="700" y="95" text-anchor="middle" fill="#fff" font-size="8">Baterai</text>
+  <line x1="660" y1="100" x2="665" y2="90" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 3:</strong> Diagram validasi APD — sistem mengecek state sebelum mengizinkan akses.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>TaskGroup.TaskStatus[]</code> (custom)</td><td>Mengecek status APD terpasang (gloves = TaskStatus[0])</td></tr>
+    <tr><td><code>XRGrabInteractable</code> + <code>XRSimpleInteractable</code></td><td>Interaksi grab + pull pada latch/panel</td></tr>
+    <tr><td><code>ColliderManager</code> (custom)</td><td>Trigger-based detection — deteksi tangan menyentuh latch</td></tr>
+    <tr><td><code>GameObject.SetActive()</code></td><td>Toggle panel cover (disable), tampilkan visual baterai (enable)</td></tr>
+    <tr><td><code>WarningGlovesUI</code></td><td>UI peringatan jika APD belum lengkap</td></tr>
+    <tr><td><code>BaterryDiag.Step2()</code> (custom)</td><td>Logic utama — cek APD → buka panel / tampilkan warning</td></tr>
+    <tr><td><code>Outline</code> (QuickOutline)</td><td>Highlight hotspot interaktif pada baterai untuk tahap inspeksi</td></tr>
+  </table>
+</div>
+
+<!-- S1 T2 -->
+<div class="page-break"></div>
+<h2 id="s1t2">2.2 Tahap 2 — Inspeksi Visual (Visual Check)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Sebelum menggunakan alat diagnostik elektronik, peserta melakukan inspeksi visual — melatih observasi sebelum bergantung pada alat. <strong>Hotspot interaktif pada model baterai di-highlight</strong> saat avatar mendekat/melihat (gaze/point/klik).</p>
+<p>Peserta mengamati dan memilih kondisi yang terlihat pada tiap hotspot:</p>
+<ul>
+  <li><strong>Kondisi casing:</strong> normal / retak / kembung (swelling)</li>
+  <li><strong>Terminal/konektor:</strong> bersih / berkarat / longgar</li>
+  <li><strong>Kebocoran:</strong> ada / tidak ada</li>
+</ul>
+<p>Untuk skenario "kondisi baik", semua hotspot menunjukkan kondisi normal. Sistem memberi feedback per pilihan: <em>"Benar, terminal terlihat bersih, lanjutkan ke pemeriksaan elektronik."</em></p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 220" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="200" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Battery pack -->
+  <rect x="40" y="30" width="200" height="140" rx="8" fill="#455a64"/>
+  <text x="140" y="105" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">BATERAI</text>
+  <!-- Hotspots -->
+  <circle cx="100" cy="60" r="18" fill="none" stroke="#ff9800" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="100" y="63" text-anchor="middle" fill="#ff9800" font-size="8">Casing</text>
+  <circle cx="140" cy="120" r="18" fill="none" stroke="#ff9800" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="140" y="123" text-anchor="middle" fill="#ff9800" font-size="8">Terminal</text>
+  <circle cx="180" cy="100" r="18" fill="none" stroke="#ff9800" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="180" y="103" text-anchor="middle" fill="#ff9800" font-size="8">Leakage</text>
+  <!-- Toggle Groups -->
+  <rect x="290" y="30" width="200" height="140" rx="6" fill="#fff" stroke="#0f3460" stroke-width="1.5"/>
+  <text x="390" y="52" text-anchor="middle" fill="#0f3460" font-size="10" font-weight="bold">Pilih Kondisi:</text>
+  <text x="310" y="74" fill="#333" font-size="9">Casing:</text>
+  <text x="310" y="92" fill="#2e7d32" font-size="8">● Normal  ○ Retak  ○ Kembung</text>
+  <text x="310" y="114" fill="#333" font-size="9">Terminal:</text>
+  <text x="310" y="132" fill="#2e7d32" font-size="8">● Bersih  ○ Berkarat  ○ Longgar</text>
+  <text x="310" y="154" fill="#333" font-size="9">Kebocoran:</text>
+  <text x="310" y="170" fill="#2e7d32" font-size="8">○ Ada  ● Tidak Ada</text>
+  <!-- Feedback -->
+  <rect x="540" y="60" width="180" height="80" rx="6" fill="#e8f5e9" stroke="#2e7d32"/>
+  <text x="630" y="85" text-anchor="middle" fill="#2e7d32" font-size="9">Feedback:</text>
+  <text x="630" y="105" text-anchor="middle" fill="#333" font-size="8">"Terminal bersih,</text>
+  <text x="630" y="118" text-anchor="middle" fill="#333" font-size="8">lanjutkan ke</text>
+  <text x="630" y="131" text-anchor="middle" fill="#333" font-size="8">pemeriksaan elektronik"</text>
+  <!-- Arrow -->
+  <line x1="495" y1="100" x2="535" y2="100" stroke="#1565c0" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 4:</strong> Inspeksi visual — hotspot interaktif pada baterai dan toggle group untuk penilaian.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>ToggleGroup</code> (UnityEngine.UI)</td><td>Grup toggle untuk tiap kategori (casing, terminal, leakage) — single selection</td></tr>
+    <tr><td><code>ToogleGroup</code> (custom)</td><td>Manager tiga toggle group inspeksi — validasi jawaban, melapor ke BaterryDiag</td></tr>
+    <tr><td><code>ComponentConfig.switchOutline()</code></td><td>Enable/disable outline hotspot saat gaze/hover mendekat</td></tr>
+    <tr><td><code>IPointerEnterHandler</code> / <code>IPointerExitHandler</code></td><td>Deteksi gaze/point pada hotspot menggunakan XR Ray Interactor</td></tr>
+    <tr><td><code>BaterryDiag.Step3(int)</code></td><td>Menerima input dari tiap toggle group, menandai InspectionAnswer[]</td></tr>
+    <tr><td><code>Toggle.onValueChanged</code></td><td>UnityEvent dipanggil saat peserta memilih opsi — trigger feedback</td></tr>
+    <tr><td><code>ToggleHover</code> (custom)</td><td>Tooltip nama komponen saat hover pada hotspot</td></tr>
+    <tr><td><code>Coroutine</code> / <code>Invoke()</code></td><td>Delay feedback text sebelum lanjut otomatis</td></tr>
+  </table>
+</div>
+
+<!-- S1 T3 -->
+<div class="page-break"></div>
+<h2 id="s1t3">2.3 Tahap 3 — Pemasangan Alat Diagnostik (BMS Scanner)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta mengambil alat diagnostik dari toolbox (drag/grab). Saat tangan avatar mendekati terminal/port diagnostik (area bertegangan tinggi), sistem menampilkan <strong>reinforcement visual: highlight/glow ringan pada sarung tangan</strong> sebagai reminder pasif bahwa APD sedang "aktif melindungi".</p>
+<p>Voice-over singkat (sekali saja): <em>"Pastikan sarung tangan terpasang dengan baik sebelum menyentuh konektor bertegangan tinggi."</em> Peserta menghubungkan probe/konektor alat ke port diagnostik dengan <strong>snap-to-connect (magnet attach)</strong>. Setelah terhubung, alat menyala dan menampilkan dashboard.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 180" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="160" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Toolbox -->
+  <rect x="20" y="40" width="100" height="80" rx="5" fill="#795548"/>
+  <text x="70" y="75" text-anchor="middle" fill="#fff" font-size="9">Toolbox</text>
+  <text x="70" y="92" text-anchor="middle" fill="#ffcc80" font-size="8">BMS Scanner</text>
+  <!-- Scanner grabbed -->
+  <rect x="160" y="50" width="60" height="30" rx="4" fill="#2196f3"/>
+  <text x="190" y="68" text-anchor="middle" fill="#fff" font-size="8">Scanner</text>
+  <line x1="120" y1="70" x2="155" y2="65" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+  <text x="135" y="55" text-anchor="middle" fill="#e94560" font-size="8">Grab</text>
+  <!-- Glove glow -->
+  <circle cx="230" cy="90" r="22" fill="none" stroke="#ffeb3b" stroke-width="2"/>
+  <text x="230" y="125" text-anchor="middle" fill="#ff9800" font-size="8">Glove Glow</text>
+  <!-- Diag port -->
+  <circle cx="400" cy="70" r="15" fill="#0f3460" stroke="#00e676" stroke-width="2"/>
+  <text x="400" y="74" text-anchor="middle" fill="#fff" font-size="8">Port</text>
+  <!-- Snap arrow -->
+  <line x1="220" y1="80" x2="380" y2="72" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="300" y="60" text-anchor="middle" fill="#00e676" font-size="9">Snap-to-Connect</text>
+  <!-- Dashboard active -->
+  <rect x="500" y="30" width="220" height="100" rx="6" fill="#1a1a2e" stroke="#00e676" stroke-width="1.5"/>
+  <text x="610" y="52" text-anchor="middle" fill="#00e676" font-size="9" font-weight="bold">BMS Dashboard</text>
+  <text x="520" y="72" fill="#fff" font-size="8">SoH: ---</text>
+  <text x="520" y="88" fill="#fff" font-size="8">Tegangan: ---</text>
+  <text x="520" y="104" fill="#fff" font-size="8">Temp: ---</text>
+  <text x="520" y="120" fill="#fff" font-size="8">Loading...</text>
+  <line x1="415" y1="70" x2="495" y2="70" stroke="#00e676" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 5:</strong> Alur pemasangan BMS Scanner — grab dari toolbox → snap ke port → dashboard menyala.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Membuat scanner dapat di-grab</td></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Snap scanner ke port — deteksi OnTriggerEnter, pindahkan posisi, disable grab</td></tr>
+    <tr><td><code>HandGrabRestriction</code> (custom)</td><td>Batasi grab scanner hanya ke tangan dominan</td></tr>
+    <tr><td><code>Collider</code> (IsTrigger)</td><td>Zona snap di port diagnostik untuk deteksi koneksi</td></tr>
+    <tr><td><code>Material.SetColor()</code> / emission</td><td>Glow effect pada sarung tangan saat dekat area HV (hlavní material emission)</td></tr>
+    <tr><td><code>BaterryDiag.GrabOBDScanner()</code></td><td>Nonaktifkan Outline scanner, mainkan audio instruksi</td></tr>
+    <tr><td><code>BaterryDiag.Step4()</code></td><td>Sembunyikan hover scanner, tampilkan scanner terkoneksi, update task</td></tr>
+    <tr><td><code>AudioSource.PlayOneShot()</code></td><td>Suara "klik" saat konektor snap</td></tr>
+    <tr><td><code>Outline.OutlineMode</code></td><td>Hilangkan outline setelah scanner terpasang</td></tr>
+  </table>
+</div>
+
+<!-- S1 T4 -->
+<div class="page-break"></div>
+<h2 id="s1t4">2.4 Tahap 4 — Pembacaan Parameter (Dashboard Diagnostik)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Dashboard menampilkan parameter secara <strong>bertahap</strong> (animasi loading per parameter, agar tidak overload):</p>
+
+<table>
+  <tr><th>Parameter</th><th>Nilai (Kondisi Baik)</th><th>Indikator</th></tr>
+  <tr><td>State of Health (SoH)</td><td>92%</td><td style="color:#2e7d32;">● Hijau</td></tr>
+  <tr><td>Tegangan Pack</td><td>350V (nominal ±5%)</td><td style="color:#2e7d32;">● Hijau</td></tr>
+  <tr><td>Temperatur</td><td>28°C</td><td style="color:#2e7d32;">● Hijau</td></tr>
+  <tr><td>Internal Resistance</td><td>Normal range</td><td style="color:#2e7d32;">● Hijau</td></tr>
+  <tr><td>Cycle Count</td><td>320 / 1000 estimasi</td><td style="color:#2e7d32;">● Hijau</td></tr>
+</table>
+
+<p>Setiap parameter muncul satu per satu, dengan <strong>tooltip penjelasan singkat</strong> saat peserta menyentuh/melihat parameter tersebut. Peserta menekan tombol pada alat untuk <strong>"lock" hasil pembacaan</strong> satu per satu (toggle), agar tetap aktif terlibat — bukan hanya membaca pasif.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 220" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="200" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Dashboard screen -->
+  <rect x="30" y="20" width="320" height="170" rx="6" fill="#1a1a2e"/>
+  <text x="190" y="42" text-anchor="middle" fill="#00e676" font-size="11" font-weight="bold">=== BMS DIAGNOSTIC ===</text>
+  <rect x="50" y="55" width="280" height="22" rx="3" fill="#1b5e20"/>
+  <text x="60" y="71" fill="#fff" font-size="9">SoH         92%  ████████░░  ✓</text>
+  <rect x="50" y="82" width="280" height="22" rx="3" fill="#1b5e20"/>
+  <text x="60" y="98" fill="#fff" font-size="9">Tegangan    350V ████████░░  ✓</text>
+  <rect x="50" y="109" width="280" height="22" rx="3" fill="#1b5e20"/>
+  <text x="60" y="125" fill="#fff" font-size="9">Temp        28°C ████████░░  ✓</text>
+  <rect x="50" y="136" width="280" height="22" rx="3" fill="#1b5e20"/>
+  <text x="60" y="152" fill="#fff" font-size="9">IR          Normal         ✓</text>
+  <rect x="50" y="163" width="280" height="22" rx="3" fill="#1b5e20"/>
+  <text x="60" y="179" fill="#fff" font-size="9">Cycle       320/1000       ✓</text>
+  <!-- Tooltip -->
+  <rect x="390" y="50" width="220" height="80" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="500" y="72" text-anchor="middle" fill="#ef6c00" font-size="9" font-weight="bold">💡 Tooltip</text>
+  <text x="410" y="92" fill="#333" font-size="8">"SoH menunjukan kapasitas</text>
+  <text x="410" y="106" fill="#333" font-size="8">baterai dibanding kondisi</text>
+  <text x="410" y="120" fill="#333" font-size="8">baru. Diatas 80% = baik"</text>
+  <!-- Lock button -->
+  <rect x="430" y="150" width="140" height="30" rx="15" fill="#0f3460"/>
+  <text x="500" y="170" text-anchor="middle" fill="#fff" font-size="10">🔒 LOCK READING</text>
+  <!-- Arrow from screen to tooltip -->
+  <line x1="350" y1="66" x2="385" y2="70" stroke="#ef6c00" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 6:</strong> Dashboard BMS dengan 5 parameter, tooltip interaktif, dan tombol lock.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>Canvas</code> (World Space)</td><td>Dashboard BMS sebagai panel 3D mengambang</td></tr>
+    <tr><td><code>Toggle</code> + <code>ToggleGroup</code></td><td>Toggle tiap parameter untuk "lock" pembacaan</td></tr>
+    <tr><td><code>ToggleHover</code> (custom)</td><td>Tooltip penjelasan per parameter saat hover/gaze</td></tr>
+    <tr><td><code>BaterryDiag.ReadingDiag(int)</code></td><td>Dipanggil saat toggle diaktifkan — tandai parameter dibaca</td></tr>
+    <tr><td><code>Coroutine</code> (animasi loading)</td><td>Efek loading bar per parameter sebelum nilai muncul</td></tr>
+    <tr><td><code>Image.fillAmount</code></td><td>Animasi loading bar bertahap</td></tr>
+    <tr><td><code>LeanTween</code> / <code>DOTween</code> (opsional)</td><td>Animasi fade-in per baris parameter untuk efek "muncul bertahap"</td></tr>
+    <tr><td><code>TextMeshProUGUI.text</code></td><td>Update nilai parameter dengan format warna hijau/merah</td></tr>
+  </table>
+</div>
+
+<!-- S1 T5 -->
+<div class="page-break"></div>
+<h2 id="s1t5">2.5 Tahap 5 — Interpretasi &amp; Kuis Mini</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Setelah semua parameter terbaca, sistem menyajikan <strong>pertanyaan reflektif via UI panel</strong>:</p>
+<p style="font-size:1.1em;text-align:center;padding:10px;background:#fff;border-radius:6px;"><em>"Berdasarkan hasil pembacaan, bagaimana kondisi baterai ini?"</em></p>
+<ul>
+  <li><strong>(a) Baik, layak digunakan</strong> → Selesai, laporan "layak pakai"</li>
+  <li><strong>(b) Perlu maintenance ringan</strong> → Lanjut ke Skenario 3</li>
+  <li><strong>(c) Perlu diganti</strong> → Lanjut ke Skenario 2</li>
+</ul>
+<p>Untuk jawaban benar (a), sistem memberi konfirmasi positif: <em>"SoH masih tinggi, semua parameter dalam rentang normal, baterai layak digunakan tanpa tindakan lanjut."</em> Jika salah, sistem memberi hint untuk meninjau ulang parameter tertentu.</p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>BaterryDiag.ConditionQuiz()</code></td><td>Evaluasi jawaban kuis — bandingkan dengan jawaban benar</td></tr>
+    <tr><td><code>Toggle</code> + <code>ToggleGroup</code></td><td>Tiga opsi jawaban dengan single selection</td></tr>
+    <tr><td><code>ToggleGroup.allowSwitchOff</code></td><td>Set false — peserta tidak bisa deselect (harus pilih salah satu)</td></tr>
+    <tr><td><code>Image.sprite</code></td><td>Ganti sprite AnswerType (CorrectAnswer / IncorrectAnswer)</td></tr>
+    <tr><td><code>TextMeshProUGUI</code> (TextHint)</td><td>Tampilkan teks feedback sesuai jawaban</td></tr>
+    <tr><td><code>SceneTransitionManager</code> (custom)</td><td>Transisi fade ke skenario berikutnya jika lanjut ke Skenario 2/3</td></tr>
+    <tr><td><code>PlayerPrefs.SetInt()</code></td><td>Simpan hasil diagnosis untuk menentukan jalur skenario</td></tr>
+  </table>
+</div>
+
+<!-- S1 T6 -->
+<h2 id="s1t6">2.6 Tahap 6 — Penutup &amp; Pelepasan APD</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Sistem merangkum hasil pemeriksaan dalam bentuk <strong>"laporan diagnostik" virtual</strong> (dokumen/checklist yang muncul di tangan avatar atau dinding bengkel). Peserta melepas alat diagnostik (probe dilepas dari port), menutup kembali panel/kompartemen baterai. Setelah area dinyatakan aman (panel tertutup), peserta melepas sarung tangan dan APD lainnya, mengembalikannya ke tempat semula. <strong>Siklus lengkap: pakai APD → kerjakan diagnosis → lepas APD setelah selesai.</strong></p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>BaterryDiag.ResultPractice()</code></td><td>Rangkum semua hasil ke clipboard view, tampilkan checkmark/X</td></tr>
+    <tr><td><code>TaskGroup.TaskResultImage[]</code></td><td>Array Image untuk setiap hasil task — centang hijau / silang merah</td></tr>
+    <tr><td><code>XRGrabInteractable.enabled = true</code></td><td>Re-enable grab untuk melepas scanner dari port</td></tr>
+    <tr><td><code>Transform.SetParent()</code></td><td>Kembalikan APD ke posisi rak/tempat semula</td></tr>
+    <tr><td><code>GameObject.SetActive()</code></td><td>Sembunyikan laporan, tutup panel, reset environment</td></tr>
+    <tr><td><code>HandGrabRestriction.ResetPosition()</code></td><td>Reset posisi equipment ke lokasi awal</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SCENARIO 2 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="scenario2">3. Skenario 2 — Penggantian Baterai</h1>
+
+<div class="callout callout-info">
+  <strong>Tujuan Pembelajaran:</strong> Setelah menyelesaikan skenario ini, peserta mampu: (1) menerapkan prosedur keselamatan tegangan tinggi (safety lockout/disconnect), (2) melakukan pelepasan baterai lama sesuai urutan benar, (3) melakukan pemasangan baterai baru sesuai prosedur, (4) melakukan verifikasi akhir instalasi.
+</div>
+
+<div class="callout callout-warn">
+  <strong>Konteks Pemicu:</strong> Skenario ini dipicu dari hasil Skenario 1 jawaban "(c) Perlu diganti", atau dari eskalasi Skenario 3 jika maintenance tidak cukup. Jika dijalankan standalone: <em>"Baterai pada kendaraan ini telah dinyatakan perlu diganti berdasarkan hasil diagnosis sebelumnya."</em>
+</div>
+
+<div class="step-flow">
+  <span class="step-box active">T0</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T1: Lockout</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T2: Lepas Komponen</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T3: Lepas Baterai</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T4: Pasang Baru</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T5: Service Plug</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T6: Verifikasi</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T7: Penutup</span>
+</div>
+
+<!-- S2 T0 -->
+<h2 id="s2t0">3.0 Tahap 0 — Safety Briefing &amp; Pemakaian APD</h2>
+<p>Mengikuti pola Skenario 1 dengan <strong>tambahan APD spesifik</strong>: sarung tangan isolasi (wajib), kacamata pelindung (wajib), sepatu safety/insulated (opsional). Voice-over: <em>"Penggantian baterai melibatkan kontak langsung dengan komponen tegangan tinggi. Pastikan seluruh APD terpasang dengan benar."</em></p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Setup config untuk 3 item APD (gloves, glasses, boots) dengan snap socket</td></tr>
+    <tr><td><code>TaskGroup.TaskStatus[]</code></td><td>Tracking 3 item APD — tombol lanjut aktif jika semua true</td></tr>
+    <tr><td><code>PlayerPrefs.GetInt()</code></td><td>Cek apakah APD masih terpasang dari skenario sebelumnya (skip repetisi)</td></tr>
+  </table>
+</div>
+
+<!-- S2 T1 -->
+<div class="page-break"></div>
+<h2 id="s2t1">3.1 Tahap 1 — Prosedur Safety Lockout / HV Disconnect</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p><strong>Tahap paling krusial</strong> dalam pelatihan EV — memutus sirkuit tegangan tinggi sebelum membuka sistem baterai. Peserta diarahkan ke titik <strong>service disconnect/safety plug</strong> (konektor oranye yang bisa dicabut).</p>
+<p><strong>Urutan interaksi:</strong></p>
+<ol>
+  <li>Peserta menemukan dan membuka penutup pelindung service plug</li>
+  <li>Menarik/melepas service plug (grab + pull)</li>
+  <li>Feedback visual: indikator LED pada dashboard mobil berubah dari hijau menjadi mati</li>
+  <li><strong>Simulasi waktu discharge:</strong> progress bar "Discharging high voltage system..." (beberapa detik) — mengajarkan waktu tunggu sebelum benar-benar aman</li>
+  <li><strong>Validasi:</strong> peserta menggunakan multimeter untuk verifikasi tegangan 0V</li>
+</ol>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="180" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Service plug area -->
+  <rect x="30" y="30" width="160" height="120" rx="6" fill="#e65100"/>
+  <text x="110" y="55" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">Service Plug</text>
+  <circle cx="110" cy="85" r="15" fill="#ff9800" stroke="#fff" stroke-width="2"/>
+  <text x="110" y="90" text-anchor="middle" fill="#fff" font-size="8">HV</text>
+  <text x="110" y="130" text-anchor="middle" fill="#ffcc80" font-size="8">⚠ Konektor Oranye</text>
+  <!-- Hand pulls -->
+  <line x1="190" y1="80" x2="260" y2="60" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="220" y="45" text-anchor="middle" fill="#e94560" font-size="9">Grab + Pull</text>
+  <!-- Dash LED -->
+  <rect x="300" y="30" width="140" height="50" rx="5" fill="#263238"/>
+  <text x="370" y="50" text-anchor="middle" fill="#fff" font-size="8">Dashboard LED</text>
+  <circle cx="350" cy="70" r="6" fill="#f44336"/>
+  <text x="370" y="74" fill="#fff" font-size="7">OFF</text>
+  <line x1="190" y1="95" x2="295" y2="65" stroke="#f44336" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Progress bar -->
+  <rect x="480" y="40" width="200" height="50" rx="5" fill="#fff" stroke="#1565c0"/>
+  <text x="580" y="58" text-anchor="middle" fill="#1565c0" font-size="9" font-weight="bold">Discharging...</text>
+  <rect x="495" y="65" width="120" height="12" rx="6" fill="#e0e0e0"/>
+  <rect x="495" y="65" width="50" height="12" rx="6" fill="#1565c0"/>
+  <text x="580" y="76" text-anchor="middle" fill="#333" font-size="7">42%</text>
+  <!-- Multimeter verify -->
+  <rect x="510" y="110" width="140" height="45" rx="5" fill="#e8f5e9" stroke="#2e7d32"/>
+  <text x="580" y="128" text-anchor="middle" fill="#2e7d32" font-size="9">Multimeter: 0V ✓</text>
+  <text x="580" y="145" text-anchor="middle" fill="#888" font-size="7">Verifikasi Aman</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 7:</strong> Prosedur Safety Lockout — lepas service plug → discharge → verifikasi 0V.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code> + <code>XRSimpleInteractable</code></td><td>Pull interaction untuk melepas service plug</td></tr>
+    <tr><td><code>ConfigurableJoint</code></td><td>Batasi gerakan plug ke satu axis (pull out) agar terasa realistis</td></tr>
+    <tr><td><code>Material.SetColor("_EmissionColor")</code></td><td>LED dashboard: hijau (aktif) → mati (aman)</td></tr>
+    <tr><td><code>Slider</code> (UI)</td><td>Progress bar "Discharging..." — fillAmount menurun bertahap</td></tr>
+    <tr><td><code>Coroutine</code> + <code>WaitForSeconds()</code></td><td>Delay discharge beberapa detik sebelum peserta bisa lanjut</td></tr>
+    <tr><td><code>Button.interactable</code></td><td>Blokir tombol lanjut jika lockout belum dilakukan</td></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Snap multimeter probe ke terminal untuk verifikasi tegangan</td></tr>
+  </table>
+</div>
+
+<!-- S2 T2 -->
+<div class="page-break"></div>
+<h2 id="s2t2">3.2 Tahap 2 — Akses &amp; Pelepasan Komponen Pendukung</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Sebelum melepas pack baterai utama, peserta melepas komponen pendukung sesuai <strong>urutan yang ditentukan</strong>:</p>
+<ol>
+  <li><strong>Konektor kelistrikan tambahan</strong> (sensor, kabel low-voltage) — klik/grab untuk melepas</li>
+  <li><strong>Selang sistem pendingin baterai</strong> — grab + pull dengan animasi sederhana</li>
+  <li><strong>Bracket/mounting penahan tambahan</strong></li>
+</ol>
+<p>Sistem memandu urutan bertahap — langkah berikutnya baru ter-highlight setelah langkah sebelumnya selesai. Setiap komponen diberi <strong>label/tooltip nama</strong> saat di-hover.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 180" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="160" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Battery compartment -->
+  <rect x="20" y="20" width="250" height="130" rx="6" fill="#455a64"/>
+  <text x="145" y="45" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">Kompartemen Baterai</text>
+  <!-- Connectors -->
+  <circle cx="70" cy="80" r="12" fill="#ff9800" stroke="#fff" stroke-width="2"/>
+  <text x="70" y="110" text-anchor="middle" fill="#ffcc80" font-size="7">Konektor</text>
+  <circle cx="145" cy="90" r="12" fill="#2196f3" stroke="#fff" stroke-width="2"/>
+  <text x="145" y="120" text-anchor="middle" fill="#90caf9" font-size="7">Selang</text>
+  <circle cx="220" cy="75" r="12" fill="#9c27b0" stroke="#fff" stroke-width="2"/>
+  <text x="220" y="105" text-anchor="middle" fill="#ce93d8" font-size="7">Bracket</text>
+  <!-- Sequence indicator -->
+  <rect x="310" y="30" width="180" height="30" rx="5" fill="#e8f5e9"/>
+  <text x="400" y="50" text-anchor="middle" fill="#2e7d32" font-size="10">▶ Step 1: Lepas Konektor</text>
+  <rect x="310" y="65" width="180" height="30" rx="5" fill="#e0e0e0"/>
+  <text x="400" y="85" text-anchor="middle" fill="#888" font-size="10">Step 2: Lepas Selang</text>
+  <rect x="310" y="100" width="180" height="30" rx="5" fill="#e0e0e0"/>
+  <text x="400" y="120" text-anchor="middle" fill="#888" font-size="10">Step 3: Lepas Bracket</text>
+  <!-- Tooltip -->
+  <rect x="530" y="60" width="170" height="50" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="615" y="80" text-anchor="middle" fill="#ef6c00" font-size="9">Konektor LV Sensor</text>
+  <text x="615" y="96" text-anchor="middle" fill="#888" font-size="8">(Low-Voltage)</text>
+  <line x1="280" y1="80" x2="305" y2="80" stroke="#ef6c00" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 8:</strong> Kompartemen baterai dengan komponen pendukung — sistem memandu urutan pelepasan.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>Outline</code> (QuickOutline)</td><td>Highlight komponen yang sedang menjadi target (urutan step)</td></tr>
+    <tr><td><code>ToggleHover</code> (custom)</td><td>Tooltip nama komponen saat hover</td></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Grab + pull untuk melepas konektor/selang</td></tr>
+    <tr><td><code>GameObject.SetActive(false)</code></td><td>Sembunyikan komponen setelah dilepas</td></tr>
+    <tr><td><code>BaterryDiag.checkTask()</code></td><td>Update progress — enable langkah berikutnya setelah langkah selesai</td></tr>
+    <tr><td><code>Transform.SetParent()</code></td><td>Pindahkan komponen dilepas ke area "parts tray"</td></tr>
+  </table>
+</div>
+
+<!-- S2 T3 -->
+<div class="page-break"></div>
+<h2 id="s2t3">3.3 Tahap 3 — Pelepasan Baterai Utama (Pack Lama)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta melepas <strong>baut/pengunci utama</strong> menggunakan tools virtual (kunci sok/torque wrench — grab tool, klik pada titik baut untuk animasi melepas). Setelah seluruh pengunci dilepas, peserta melakukan <strong>grab pack baterai dan menariknya keluar</strong> dengan jalur pergerakan snap-guided. Pack baterai lama diletakkan di area kerja (meja/troli) — snap zone. Indikator visual "kondisi buruk" pada pack lama sebagai callback dari Skenario 1.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="180" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Battery in slot -->
+  <rect x="30" y="30" width="200" height="100" rx="6" fill="#78909c"/>
+  <rect x="50" y="45" width="160" height="70" rx="4" fill="#ff9800" stroke="#c62828" stroke-width="2"/>
+  <text x="130" y="85" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">BATERAI</text>
+  <text x="130" y="100" text-anchor="middle" fill="#ffcdd2" font-size="8">⚠ Kondisi Buruk</text>
+  <!-- Bolts -->
+  <circle cx="55" cy="40" r="6" fill="#fff" stroke="#333"/>
+  <circle cx="205" cy="40" r="6" fill="#fff" stroke="#333"/>
+  <circle cx="55" cy="120" r="6" fill="#fff" stroke="#333"/>
+  <circle cx="205" cy="120" r="6" fill="#fff" stroke="#333"/>
+  <!-- Wrench -->
+  <rect x="280" y="50" width="80" height="20" rx="4" fill="#90a4ae"/>
+  <text x="320" y="64" text-anchor="middle" fill="#333" font-size="9">🔧 Torque Wrench</text>
+  <line x1="260" y1="55" x2="275" y2="45" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Pull path -->
+  <line x1="230" y1="80" x2="350" y2="130" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+  <text x="280" y="100" text-anchor="middle" fill="#00e676" font-size="9">Pull Path</text>
+  <!-- Work table -->
+  <rect x="380" y="110" width="160" height="40" rx="4" fill="#8d6e63"/>
+  <text x="460" y="135" text-anchor="middle" fill="#fff" font-size="9">Troli / Meja Kerja</text>
+  <text x="460" y="148" text-anchor="middle" fill="#ffcc80" font-size="7">Snap Zone</text>
+  <!-- Old pack indicator -->
+  <rect x="560" y="30" width="160" height="50" rx="5" fill="#ffcdd2" stroke="#c62828"/>
+  <text x="640" y="52" text-anchor="middle" fill="#c62828" font-size="9">Pack Lama:</text>
+  <text x="640" y="68" text-anchor="middle" fill="#c62828" font-size="8">SoH 62% — Perlu Ganti</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 9:</strong> Pelepasan baterai — buka baut → tarik pack keluar → letakkan di troli.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Grab torque wrench / kunci sok</td></tr>
+    <tr><td><code>Collider</code> (IsTrigger)</td><td>Zona baut — trigger saat tool diarahkan → animasi melepas</td></tr>
+    <tr><td><code>XRGrabInteractable</code> (pada pack baterai)</td><td>Grab pack baterai setelah baut dilepas</td></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Snap pack baterai ke snap zone di troli — OnTriggerEnter</td></tr>
+    <tr><td><code>Rigidbody.isKinematic</code></td><td>Aktifkan physics saat pack di-grab (rasa berat), kinematic saat di slot</td></tr>
+    <tr><td><code>Haptic</code> / <code>XRController.SendHapticImpulse()</code></td><td>Getaran controller saat torsi tercapai (feedback haptic)</td></tr>
+    <tr><td><code>Animator</code> / <code>Animation</code></td><td>Animasi baut berputar saat tool diarahkan</td></tr>
+  </table>
+</div>
+
+<!-- S2 T4 -->
+<div class="page-break"></div>
+<h2 id="s2t4">3.4 Tahap 4 — Pemasangan Baterai Baru</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Pack baterai baru tersedia di area kerja (muncul di troli/rak dengan visual "baru"/segel). Peserta melakukan <strong>grab + masukkan ke slot</strong> dengan snap-guided movement (kebalikan Tahap 3), snap-fit/highlight hijau saat posisi tepat. Pasang kembali baut dengan torque wrench — <strong>indikator "klik" atau getaran controller</strong> saat torsi tepat. Pasang kembali komponen pendukung dalam urutan terbalik: bracket → selang pendingin → konektor kelistrikan.</p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>EquipmentManager</code> (custom)</td><td>Snap pack baru dari troli ke slot kompartemen — reversed flow</td></tr>
+    <tr><td><code>Material.color</code> / highlight hijau</td><td>Visual feedback saat posisi tepat sebelum lock</td></tr>
+    <tr><td><code>XRController.SendHapticImpulse()</code></td><td>Getaran "klik" saat torsi tercapai — simulasi torque wrench</td></tr>
+    <tr><td><code>Outline</code> (QuickOutline)</td><td>Highlight urutan pemasangan terbalik (bracket → selang → konektor)</td></tr>
+    <tr><td><code>AudioSource.Play()</code></td><td>Suara "klik" baut terkunci, suara konektor snap</td></tr>
+  </table>
+</div>
+
+<!-- S2 T5 -->
+<h2 id="s2t5">3.5 Tahap 5 — Pemasangan Kembali Service Plug &amp; Pengaktifan</h2>
+
+<p>Peserta menutup panel kompartemen, kembali ke titik service disconnect, memasang kembali service plug (grab + push). Sistem menampilkan <strong>indikator LED dashboard menyala kembali</strong> sebagai konfirmasi sistem HV aktif.</p>
+
+<!-- S2 T6 -->
+<h2 id="s2t6">3.6 Tahap 6 — Verifikasi Pasca-Penggantian</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Menghubungkan kembali ke alat diagnostik (BMS Scanner) — <strong>menutup siklus assess → act → verify</strong>. Dashboard menampilkan parameter baterai baru: SoH 100%, cycle count 0, semua hijau. Pertanyaan reflektif: <em>"Berdasarkan hasil verifikasi, apakah penggantian baterai berhasil?"</em></p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td>Reuse fungsi Skenario 1 Tahap 3-4</td><td>Pemasangan scanner + dashboard — kode yang sama, nilai parameter berbeda</td></tr>
+    <tr><td><code>ScriptableObject</code></td><td>Simpan "BatteryConfig" (SoH, cycle, dll.) — reusable untuk berbagai varian kondisi</td></tr>
+    <tr><td><code>BaterryDiag.ConditionQuiz()</code></td><td>Reuse untuk pertanyaan verifikasi pasca-penggantian</td></tr>
+  </table>
+</div>
+
+<!-- S2 T7 -->
+<h2 id="s2t7">3.7 Tahap 7 — Penutup &amp; Pelepasan APD</h2>
+
+<p>Sistem menampilkan <strong>"laporan pekerjaan" virtual</strong> (checklist work order selesai). Peserta merapikan area: pack baterai lama dipindahkan ke area "limbah B3"/penyimpanan khusus (edukasi penanganan limbah baterai EV). Pelepasan APD dan pengembalian ke tempat semula. Skenario selesai — sistem menampilkan ringkasan skor/waktu/jumlah kesalahan.</p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>BaterryDiag.ResultPractice()</code></td><td>Reuse — tampilkan laporan work order virtual</td></tr>
+    <tr><td><code>PlayerPrefs.SetFloat()</code></td><td>Simpan waktu penyelesaian, jumlah kesalahan untuk evaluasi</td></tr>
+    <tr><td><code>SceneTransitionManager.FadeToScene()</code></td><td>Fade out ke menu utama atau skenario berikutnya</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SCENARIO 3 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="scenario3">4. Skenario 3 — Maintenance Ringan Baterai</h1>
+
+<div class="callout callout-info">
+  <strong>Tujuan Pembelajaran:</strong> Setelah menyelesaikan skenario ini, peserta mampu: (1) mengidentifikasi jenis masalah ringan pada baterai, (2) melakukan pembersihan terminal sesuai prosedur, (3) melakukan pengencangan konektor sesuai spesifikasi, (4) verifikasi ulang efektivitas maintenance.
+</div>
+
+<div class="callout callout-warn">
+  <strong>Konteks Pemicu:</strong> Dipicu dari Skenario 1 jawaban "(b) Perlu maintenance ringan" — ketika inspeksi visual atau dashboard menunjukkan anomali ringan: terminal berkarat/kotor, konektor longgar, atau parameter sedikit di luar rentang (misal SoH 78%). Skenario ini memiliki percabangan sendiri: jika masalah teratasi → selesai; jika tidak → eskalasi ke Skenario 2.
+</div>
+
+<div class="step-flow">
+  <span class="step-box active">T0</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T1: Identifikasi</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T2: Bersihkan</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T3: Kencangkan</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T4: Periksa</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T5: Verifikasi</span><span style="padding-top:10px">→</span>
+  <span class="step-box">T6: Penutup</span>
+</div>
+
+<!-- S3 T0 -->
+<h2 id="s3t0">4.0 Tahap 0 — Safety Briefing &amp; Pemakaian APD</h2>
+<p>Checklist APD: sarung tangan isolasi (wajib), kacamata pelindung (opsional). Voice-over: <em>"Hasil diagnosis menunjukkan baterai memerlukan perawatan ringan. Mari lakukan langkah-langkah perawatan dasar."</em> Jika melanjutkan dari Skenario 1, sistem mengecek APD masih terpasang — jika ya, tahap dipersingkat.</p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>PlayerPrefs.GetInt("APD_State")</code></td><td>Cek APD dari skenario sebelumnya — lewati tahap jika masih terpasang</td></tr>
+    <tr><td><code>EquipmentManager.configs[].isSnapped</code></td><td>Cek runtime state APD untuk menentukan perlu ulang atau tidak</td></tr>
+  </table>
+</div>
+
+<!-- S3 T1 -->
+<div class="page-break"></div>
+<h2 id="s3t1">4.1 Tahap 1 — Identifikasi Area Bermasalah</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Sistem menampilkan <strong>ringkasan hasil diagnosis</strong> dari Skenario 1 dengan highlight pada item bermasalah. Hotspot pada area fokus maintenance:</p>
+<ul>
+  <li><strong>Terminal/konektor berkarat/kotor</strong> → perlu dibersihkan</li>
+  <li><strong>Baut/konektor longgar</strong> → perlu dikencangkan</li>
+</ul>
+<p>Peserta memilih/klik hotspot untuk melihat detail masalah dan tindakan yang akan dilakukan — melatih kemampuan menghubungkan temuan diagnosis dengan tindakan perbaikan.</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 180" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="160" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Report from S1 -->
+  <rect x="20" y="15" width="200" height="130" rx="6" fill="#fff" stroke="#0f3460"/>
+  <text x="120" y="38" text-anchor="middle" fill="#0f3460" font-size="10" font-weight="bold">Laporan Diagnosis</text>
+  <text x="40" y="60" fill="#2e7d32" font-size="8">✓ SoH: 78% (borderline)</text>
+  <text x="40" y="78" fill="#c62828" font-size="8">⚠ Terminal: Berkarat</text>
+  <text x="40" y="96" fill="#c62828" font-size="8">⚠ Konektor: Longgar</text>
+  <text x="40" y="114" fill="#2e7d32" font-size="8">✓ Tegangan: 348V</text>
+  <text x="40" y="132" fill="#2e7d32" font-size="8">✓ Temp: 31°C</text>
+  <!-- Hotspots on battery -->
+  <rect x="260" y="25" width="220" height="120" rx="6" fill="#455a64"/>
+  <text x="370" y="50" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">BATERAI</text>
+  <circle cx="320" cy="85" r="18" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="320" y="88" text-anchor="middle" fill="#ffcdd2" font-size="7">⚠ Karat</text>
+  <circle cx="420" cy="75" r="18" fill="none" stroke="#ef6c00" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="420" y="78" text-anchor="middle" fill="#ffe0b2" font-size="7">⚠ Longgar</text>
+  <!-- Tools to use -->
+  <rect x="520" y="25" width="190" height="120" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="615" y="48" text-anchor="middle" fill="#ef6c00" font-size="10" font-weight="bold">Tindakan:</text>
+  <text x="540" y="72" fill="#333" font-size="9">1. Sikat kawat /</text>
+  <text x="555" y="88" fill="#333" font-size="9">Contact cleaner</text>
+  <text x="540" y="110" fill="#333" font-size="9">2. Kunci pas /</text>
+  <text x="555" y="126" fill="#333" font-size="9">Obeng</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 10:</strong> Identifikasi — laporan diagnosis dengan highlight masalah dan tools yang dibutuhkan.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>TaskGroup.TaskResultImage[]</code></td><td>Reuse dari ResultPractice() untuk tampilkan laporan diagnosis</td></tr>
+    <tr><td><code>Outline.OutlineColor</code></td><td>Warna outline berbeda: merah (masalah), hijau (normal)</td></tr>
+    <tr><td><code>ComponentConfig.switchOutline()</code></td><td>Toggle outline hotspot sesuai data diagnosis</td></tr>
+    <tr><td><code>ToggleHover</code> (custom)</td><td>Tooltip detail masalah + tindakan saat hover hotspot</td></tr>
+    <tr><td><code>BaterryDiag.InspectionAnswer[]</code></td><td>Data dari inspeksi visual S1 menentukan hotspot mana yang merah</td></tr>
+  </table>
+</div>
+
+<!-- S3 T2 -->
+<div class="page-break"></div>
+<h2 id="s3t2">4.2 Tahap 2 — Pembersihan Terminal (Terminal Cleaning)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta mengambil alat pembersih dari toolbox (sikat kawat khusus terminal/contact cleaner spray). Sebelum membersihkan, sistem mengingatkan konfirmasi "kendaraan off". <strong>Interaksi pembersihan:</strong> peserta menggerakkan alat (sikat/spray) pada area terminal yang di-highlight — gerakan berulang sederhana (drag bolak-balik) hingga <strong>progress bar "kebersihan" mencapai 100%</strong>, atau visual karat/kotoran pada model 3D berangsur hilang (texture swap/fade).</p>
+
+<div class="diagram no-break">
+<svg viewBox="0 0 750 170" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="730" height="150" rx="8" fill="#f5f5f5" stroke="#ddd"/>
+  <!-- Terminal before -->
+  <rect x="30" y="20" width="150" height="110" rx="6" fill="#fff" stroke="#c62828"/>
+  <text x="105" y="45" text-anchor="middle" fill="#c62828" font-size="9" font-weight="bold">SEBELUM</text>
+  <circle cx="105" cy="80" r="20" fill="#795548" stroke="#c62828" stroke-width="2"/>
+  <text x="105" y="84" text-anchor="middle" fill="#fff" font-size="7">Karat</text>
+  <!-- Brush tool -->
+  <rect x="220" y="55" width="80" height="25" rx="4" fill="#90a4ae"/>
+  <text x="260" y="72" text-anchor="middle" fill="#333" font-size="9">🧹 Sikat Kawat</text>
+  <line x1="180" y1="75" x2="215" y2="70" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Progress bar -->
+  <rect x="340" y="50" width="100" height="40" rx="5" fill="#fff" stroke="#1565c0"/>
+  <text x="390" y="68" text-anchor="middle" fill="#1565c0" font-size="8">Kebersihan</text>
+  <rect x="350" y="75" width="70" height="8" rx="4" fill="#e0e0e0"/>
+  <rect x="350" y="75" width="55" height="8" rx="4" fill="#1565c0"/>
+  <text x="390" y="87" text-anchor="middle" fill="#333" font-size="7">78%</text>
+  <!-- After -->
+  <rect x="490" y="20" width="150" height="110" rx="6" fill="#fff" stroke="#2e7d32"/>
+  <text x="565" y="45" text-anchor="middle" fill="#2e7d32" font-size="9" font-weight="bold">SESUDAH</text>
+  <circle cx="565" cy="80" r="20" fill="#bdbdbd" stroke="#2e7d32" stroke-width="2"/>
+  <text x="565" y="84" text-anchor="middle" fill="#fff" font-size="7">Bersih ✓</text>
+  <!-- Arrow cleaned -->
+  <line x1="445" y1="75" x2="485" y2="75" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="65" text-anchor="middle" fill="#2e7d32" font-size="8">100%</text>
+</svg>
+<p style="margin-top:8px;color:#666;font-size:0.85em;"><strong>Gambar 11:</strong> Pembersihan terminal — sikat → progress bar → visual bersih.</p>
+</div>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Grab sikat kawat / contact cleaner spray</td></tr>
+    <tr><td><code>Collider</code> (IsTrigger) pada terminal</td><td>Deteksi saat sikat berada di area terminal → increment progress</td></tr>
+    <tr><td><code>OnTriggerStay()</code></td><td>Akumulasi waktu kontak — progress bertambah selama sikat digerakkan di area</td></tr>
+    <tr><td><code>Slider</code> / <code>Image.fillAmount</code></td><td>Progress bar "kebersihan" — 0% ke 100%</td></tr>
+    <tr><td><code>Material.Lerp()</code> / <code>texture swap</code></td><td>Transisi visual karat → bersih seiring progress (lerp antara dua texture)</td></tr>
+    <tr><td><code>ParticleSystem</code></td><td>Efek partikel karat/debu yang rontok saat disikat (visual feedback)</td></tr>
+    <tr><td><code>AudioSource.Play()</code></td><td>Suara sikat menggosok (loop, pitch bervariasi)</td></tr>
+  </table>
+</div>
+
+<!-- S3 T3 -->
+<div class="page-break"></div>
+<h2 id="s3t3">4.3 Tahap 3 — Pengencangan Konektor (Connector Tightening)</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Peserta mengambil tools (kunci pas/obeng virtual). Mengarahkan tool ke titik konektor/baut yang di-highlight, lalu melakukan interaksi <strong>"mengencangkan"</strong> — gesture rotate pada controller, atau klik berulang dengan animasi memutar. <strong>Elemen torsi:</strong> indikator "klik"/getaran saat torsi tepat — mencegah overtighten. Feedback: <em>"Konektor sudah terpasang dengan kencang sesuai spesifikasi."</em></p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td><code>XRGrabInteractable</code></td><td>Grab kunci pas / obeng</td></tr>
+    <tr><td><code>Transform.Rotate()</code></td><td>Animasi memutar tool/baut — deteksi gesture rotate controller</td></tr>
+    <tr><td><code>XRController.SendHapticImpulse()</code></td><td>Getaran "klik" saat torsi tepat — mencegah overtighten</td></tr>
+    <tr><td><code>Quaternion.Angle()</code></td><td>Deteksi besar rotasi — berapa derajat controller diputar</td></tr>
+    <tr><td><code>AudioSource.Play()</code></td><td>Suara "klik" ratchet/pengunci saat torsi tercapai</td></tr>
+    <tr><td><code>Slider</code></td><td>Indikator torsi — mundur jika terlalu kencang</td></tr>
+  </table>
+</div>
+
+<!-- S3 T4 -->
+<h2 id="s3t4">4.4 Tahap 4 — Pemeriksaan Tambahan (Opsional)</h2>
+
+<p>Opsional sesuai skenario: pembersihan ventilasi baterai, pengecekan ulang kabel grounding. Tahap ini fleksibel — bisa disesuaikan dengan kompleksitas yang diinginkan.</p>
+
+<!-- S3 T5 -->
+<div class="page-break"></div>
+<h2 id="s3t5">4.5 Tahap 5 — Verifikasi Pasca-Maintenance</h2>
+
+<h3>Konteks &amp; Penjelasan Detail</h3>
+<p>Menutup siklus: peserta menghubungkan kembali BMS Scanner ke port diagnostik. Dashboard menampilkan parameter yang sebelumnya bermasalah kini menunjukkan perbaikan. <strong>Penting secara pedagogis:</strong> SoH tidak berubah drastis hanya karena dibersihkan — peserta belajar bahwa maintenance ringan tidak memperbaiki usia baterai, hanya mengatasi masalah koneksi/kebersihan.</p>
+<p>Pertanyaan reflektif: <em>"Apakah hasil maintenance sudah menyelesaikan masalah, atau masih diperlukan tindakan lebih lanjut?"</em> — (a) Sudah teratasi → selesai; (b) Masih ada masalah → eskalasi ke Skenario 2.</p>
+
+<div class="callout callout-unity">
+  <h4>🔧 Fungsi Unity yang Disarankan</h4>
+  <table>
+    <tr><th>Fungsi/Komponen</th><th>Kegunaan</th></tr>
+    <tr><td>Reuse Skenario 1 Tahap 3-5</td><td>Dashboard + kuis — parameter disesuaikan (SoH tetap 78%, tapi Tegangan stabil)</td></tr>
+    <tr><td><code>ScriptableObject</code></td><td>"MaintenanceConfig" — definisi parameter sebelum/sesudah maintenance</td></tr>
+    <tr><td><code>SceneTransitionManager</code></td><td>Eskalasi ke Skenario 2 jika jawaban (b)</td></tr>
+  </table>
+</div>
+
+<!-- S3 T6 -->
+<h2 id="s3t6">4.6 Tahap 6 — Penutup</h2>
+
+<p>Laporan maintenance ditampilkan (checklist tindakan + hasil verifikasi). Peserta merapikan alat ke toolbox. Pelepasan APD jika akhir sesi, atau lanjut ke skenario berikutnya jika percabangan ke penggantian.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- UNITY REFERENCE -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="unity-reference">5. Referensi Unity API &amp; Package</h1>
+
+<p>Berikut adalah ringkasan komponen Unity yang direkomendasikan untuk mengimplementasikan ketiga skenario, dikelompokkan berdasarkan kategori.</p>
+
+<h2>5.1 XR Interaction Toolkit (XRI 2.3.2)</h2>
+<table>
+  <tr><th>Komponen</th><th>Fungsi</th><th>Digunakan di Tahap</th></tr>
+  <tr><td><code>XRGrabInteractable</code></td><td>Membuat objek dapat dipegang (grab) dengan controller VR</td><td>Semua tahap yang melibatkan grab (APD, tools, scanner, baterai, service plug)</td></tr>
+  <tr><td><code>XRSimpleInteractable</code></td><td>Interaksi sederhana tanpa grab (hover, select, activate)</td><td>Panel/latch, hotspot inspeksi</td></tr>
+  <tr><td><code>XRBaseController</code></td><td>Base class controller VR — akses input device</td><td>Deteksi controller kiri/kanan untuk HandGrabRestriction</td></tr>
+  <tr><td><code>XRController.SendHapticImpulse()</code></td><td>Getaran haptic pada controller</td><td>S2T3, S2T4, S3T3 — feedback torsi</td></tr>
+  <tr><td><code>XRRayInteractor</code></td><td>Ray pointer untuk interaksi jarak jauh dengan UI</td><td>Semua UI panel (dashboard, kuis, checklist)</td></tr>
+  <tr><td><code>XRDirectInteractor</code></td><td>Interaksi langsung (touch) dengan objek 3D</td><td>Grab objek fisik (tools, APD, baterai)</td></tr>
+  <tr><td><code>ActionBasedController</code></td><td>Controller berbasis Input System Actions</td><td>Setup controller dengan Input Action references</td></tr>
+  <tr><td><code>ActionBasedSnapTurnProvider</code></td><td>Rotasi snap (diskrit) untuk locomotion</td><td>Navigasi area bengkel</td></tr>
+  <tr><td><code>ActionBasedContinuousTurnProvider</code></td><td>Rotasi kontinu (smooth) untuk locomotion</td><td>Alternatif navigasi (PlayerPrefs "turn")</td></tr>
+</table>
+
+<h2>5.2 Unity UI (uGUI) &amp; TextMesh Pro</h2>
+<table>
+  <tr><th>Komponen</th><th>Fungsi</th><th>Digunakan di Tahap</th></tr>
+  <tr><td><code>Canvas</code> (World Space)</td><td>UI mengambang di dunia 3D (dashboard, checklist, laporan)</td><td>S1T0, S1T4, S2T1, S3T1</td></tr>
+  <tr><td><code>Toggle</code> + <code>ToggleGroup</code></td><td>Pilihan tunggal (inspeksi, kuis, lock parameter)</td><td>S1T2, S1T4, S1T5</td></tr>
+  <tr><td><code>Button</code></td><td>Tombol interaktif (Lanjut, Lock, Submit)</td><td>Semua tahap</td></tr>
+  <tr><td><code>Slider</code></td><td>Progress bar (discharge, kebersihan terminal)</td><td>S2T1, S3T2</td></tr>
+  <tr><td><code>Image.fillAmount</code></td><td>Animasi progress radial/linear</td><td>S1T4 (loading parameter), S3T2</td></tr>
+  <tr><td><code>TextMeshProUGUI</code></td><td>Teks dengan kualitas tinggi (tooltip, instruksi, feedback)</td><td>Semua UI text</td></tr>
+  <tr><td><code>TextMeshPro</code> (3D)</td><td>Teks 3D di dunia (label komponen)</td><td>S2T2, S3T1</td></tr>
+</table>
+
+<h2>5.3 Physics &amp; Collision</h2>
+<table>
+  <tr><th>Komponen</th><th>Fungsi</th><th>Digunakan di Tahap</th></tr>
+  <tr><td><code>Collider</code> (IsTrigger)</td><td>Zona deteksi untuk snap, proximity check</td><td>Semua interaksi snap-to-connect</td></tr>
+  <tr><td><code>OnTriggerEnter()</code></td><td>Event saat objek memasuki zona trigger</td><td>EquipmentManager, ColliderManager</td></tr>
+  <tr><td><code>OnTriggerStay()</code></td><td>Event kontinu selama objek di dalam trigger</td><td>S3T2 (progress pembersihan)</td></tr>
+  <tr><td><code>OnTriggerExit()</code></td><td>Event saat objek keluar dari zona trigger</td><td>Reset state jika alat dijauhkan</td></tr>
+  <tr><td><code>Rigidbody</code></td><td>Physics pada objek yang di-grab (berat, gravitasi)</td><td>Baterai pack, tools</td></tr>
+  <tr><td><code>ConfigurableJoint</code></td><td>Batasan gerakan mekanis (pull axis service plug)</td><td>S2T1 (service disconnect)</td></tr>
+  <tr><td><code>FixedJoint</code></td><td>Kunci objek setelah snap (opsional)</td><td>Snap connections</td></tr>
+</table>
+
+<h2>5.4 Rendering &amp; Visual</h2>
+<table>
+  <tr><th>Komponen</th><th>Fungsi</th><th>Digunakan di Tahap</th></tr>
+  <tr><td><code>Outline</code> (QuickOutline)</td><td>Highlight objek dengan outline glow</td><td>S1T2 (hotspot), S2T2 (urutan), S3T1</td></tr>
+  <tr><td><code>Material.SetColor("_EmissionColor")</code></td><td>Efek glow/emission (LED dashboard, glove reminder)</td><td>S2T1 (LED), S1T3 (glove glow)</td></tr>
+  <tr><td><code>Material.Lerp()</code></td><td>Transisi visual mulus (karat → bersih)</td><td>S3T2</td></tr>
+  <tr><td><code>ParticleSystem</code></td><td>Efek partikel (debu karat, spark)</td><td>S3T2</td></tr>
+  <tr><td><code>Animator</code></td><td>Animasi state machine (baut berputar, panel terbuka)</td><td>S1T1, S2T3</td></tr>
+  <tr><td><code>Animation</code></td><td>Animasi sederhana (legacy)</td><td>Alternatif Animator</td></tr>
+</table>
+
+<h2>5.5 Audio</h2>
+<table>
+  <tr><th>Komponen</th><th>Fungsi</th><th>Digunakan di Tahap</th></tr>
+  <tr><td><code>AudioSource.Play()</code></td><td>Mainkan audio clip (voice-over, SFX)</td><td>Semua tahap</td></tr>
+  <tr><td><code>AudioSource.PlayOneShot()</code></td><td>One-shot SFX tanpa interupsi</td><td>Suara klik, snap, warning buzzer</td></tr>
+  <tr><td><code>AudioSource.loop</code></td><td>Loop audio (suara sikat menggosok)</td><td>S3T2</td></tr>
+  <tr><td><code>AudioManager</code> (custom)</td><td>Singleton manager — play by string name</td><td>Semua audio yang perlu dikelola terpusat</td></tr>
+  <tr><td><code>UIAudio</code> (custom)</td><td>Audio pada UI hover/click events</td><td>Semua tombol UI</td></tr>
+</table>
+
+<h2>5.6 Custom Scripts (Sudah Ada di Project)</h2>
+<table>
+  <tr><th>Script</th><th>Fungsi</th><th>Relevansi</th></tr>
+  <tr><td><code>BaterryDiag</code></td><td>Central controller 6-step diagnostic</td><td>Core semua skenario — perlu diperluas untuk S2 dan S3</td></tr>
+  <tr><td><code>EquipmentManager</code></td><td>Singleton snap manager — grab → snap → disable</td><td>APD, scanner, tools, baterai</td></tr>
+  <tr><td><code>HandGrabRestriction</code></td><td>Batasi grab ke tangan kiri/kanan</td><td>Tools spesifik (tangan dominan)</td></tr>
+  <tr><td><code>TaskGroup</code></td><td>Serializable class — tracking task per step</td><td>Progress checking semua tahap</td></tr>
+  <tr><td><code>ToogleGroup</code></td><td>Manager tiga inspection toggle group</td><td>S1T2 — bisa diperluas untuk S3T1</td></tr>
+  <tr><td><code>ToggleHover</code></td><td>Tooltip UI pada hover pointer</td><td>Semua tooltip (parameter, komponen)</td></tr>
+  <tr><td><code>ComponentConfig</code></td><td>Outline + billboard hover untuk 3D objects</td><td>Hotspot interaktif</td></tr>
+  <tr><td><code>ColliderManager</code></td><td>Trigger-based task completion</td><td>Snap detection alternatif</td></tr>
+  <tr><td><code>SceneTransitionManager</code></td><td>Fade-to-black scene switching</td><td>Transisi antar skenario</td></tr>
+  <tr><td><code>AudioManager</code></td><td>Centralized audio by string name</td><td>Voice-over, SFX management</td></tr>
+  <tr><td><code>slideShowManager</code></td><td>Slide navigator (prev/next)</td><td>UI slide panduan per tahap</td></tr>
+</table>
+
+<h2>5.7 Package Tambahan yang Direkomendasikan</h2>
+<table>
+  <tr><th>Package</th><th>Fungsi</th></tr>
+  <tr><td><strong>DOTween</strong> (free)</td><td>Tweening library — animasi fade, move, scale, rotate yang smooth. Alternatif: LeanTween</td></tr>
+  <tr><td><strong>QuickOutline</strong> (sudah ada)</td><td>Mesh outline system — sudah terpasang di project</td></tr>
+  <tr><td><strong>XR Interaction Toolkit Examples</strong> (sudah ada)</td><td>Referensi implementasi socket, physics door, 3D UI controls</td></tr>
+  <tr><td><strong>Unity Input System</strong> (sudah ada)</td><td>Input handling — XRI Actions untuk grab, activate, rotate, dll.</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- REFERENCES -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="references">6. Daftar Referensi</h1>
+
+<h2>6.1 Referensi Teknis EV &amp; Prosedur Keselamatan</h2>
+<ol class="ref-list">
+  <li>SAE International. (2021). <em>J2464: Electric and Hybrid Electric Vehicle Rechargeable Energy Storage System (RESS) Safety and Abuse Testing</em>. SAE International.</li>
+  <li>IEC. (2018). <em>IEC 62660-3: Secondary lithium-ion cells for the propulsion of electric road vehicles — Part 3: Safety requirements</em>. International Electrotechnical Commission.</li>
+  <li>UNECE. (2014). <em>UN Regulation No. 100 — Uniform provisions concerning the approval of vehicles with regard to specific requirements for the electric power train</em>. United Nations Economic Commission for Europe.</li>
+  <li>U.S. Department of Energy. (2022). <em>Electric Vehicle Safety Training for Emergency Responders</em>. National Alternative Fuels Training Consortium (NAFTC). <a href="https://afdc.energy.gov/vehicles/electric_safety.html">https://afdc.energy.gov/vehicles/electric_safety.html</a></li>
+  <li>National Fire Protection Association. (2020). <em>NFPA 70E: Standard for Electrical Safety in the Workplace</em>. NFPA.</li>
+  <li>Occupational Safety and Health Administration. (2017). <em>Controlling Electrical Hazards (OSHA 3075)</em>. U.S. Department of Labor.</li>
+</ol>
+
+<h2>6.2 Referensi Unity &amp; XR Development</h2>
+<ol class="ref-list" start="7">
+  <li>Unity Technologies. (2023). <em>Unity 2022.3 LTS Documentation — XR Interaction Toolkit</em>. <a href="https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.3/manual/index.html">https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.3/manual/index.html</a></li>
+  <li>Unity Technologies. (2023). <em>Universal Render Pipeline (URP) Documentation</em>. <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@14.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@14.0/manual/index.html</a></li>
+  <li>Unity Technologies. (2023). <em>Input System Package Documentation</em>. <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@1.6/manual/index.html">https://docs.unity3d.com/Packages/com.unity.inputsystem@1.6/manual/index.html</a></li>
+  <li>Meta Platforms, Inc. (2023). <em>Oculus XR Plugin Documentation — Unity Integration</em>. <a href="https://developer.oculus.com/documentation/unity/unity-overview/">https://developer.oculus.com/documentation/unity/unity-overview/</a></li>
+  <li>Khronos Group. (2023). <em>OpenXR Specification 1.0</em>. <a href="https://registry.khronos.org/OpenXR/">https://registry.khronos.org/OpenXR/</a></li>
+  <li>Unity Technologies. (2023). <em>XR Interaction Toolkit 2.3.2 — XR Grab Interactable</em>. <a href="https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.3/api/UnityEngine.XR.Interaction.Toolkit.XRGrabInteractable.html">https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.3/api/</a></li>
+</ol>
+
+<h2>6.3 Referensi Desain Instruksional VR</h2>
+<ol class="ref-list" start="13">
+  <li>Jensen, L., & Konradsen, F. (2018). A review of the use of virtual reality head-mounted displays in education and training. <em>Education and Information Technologies, 23</em>, 1515–1529. Springer.</li>
+  <li>Radianti, J., Majchrzak, T. A., Fromm, J., & Wohlgenannt, I. (2020). A systematic review of immersive virtual reality applications for higher education: Design elements, lessons learned, and a research agenda. <em>Computers & Education, 147</em>, 103778. Elsevier.</li>
+  <li>Chernobyl, R. S. (2019). <em>Virtual Reality for Safety Training: A Case Study in High-Risk Industry</em>. International Journal of Engineering Pedagogy (iJEP).</li>
+  <li>Nolet, C. (2019). <em>QuickOutline — Mesh Outline System for Unity</em>. GitHub. <a href="https://github.com/chrisnolet/QuickOutline">https://github.com/chrisnolet/QuickOutline</a></li>
+</ol>
+
+<h2>6.4 Referensi Baterai EV &amp; Parameter Diagnostik</h2>
+<ol class="ref-list" start="17">
+  <li>Pistoia, G. (Ed.). (2014). <em>Lithium-Ion Batteries: Advances and Applications</em>. Elsevier. — Chapter 18: Battery Management Systems (BMS) and State of Health (SoH) estimation.</li>
+  <li>Hu, X., Feng, F., Liu, K., Zhang, L., Xie, J., & Liu, B. (2020). State estimation for advanced battery management: Key challenges and future trends. <em>Renewable and Sustainable Energy Reviews, 114</em>, 109334. Elsevier.</li>
+  <li>Lu, L., Han, X., Li, J., Hua, J., & Ouyang, M. (2013). A review on the key issues for lithium-ion battery management in electric vehicles. <em>Journal of Power Sources, 226</em>, 272–288. Elsevier.</li>
+  <li>Berecibar, M., Gandiaga, I., Villarreal, I., Omar, N., Van Mierlo, J., & Van den Bossche, P. (2016). Critical review of state of health estimation methods of Li-ion batteries for real applications. <em>Renewable and Sustainable Energy Reviews, 56</em>, 572–587. Elsevier.</li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<footer>
+  <p>Ziber Art Studio — VR Electric Vehicle Training Documentation</p>
+  <p>Unity 2022.3 LTS · XR Interaction Toolkit 2.3.2 · Meta Quest / Windows Standalone</p>
+  <p>Disusun Juli 2026 — Dokumen ini dapat dicetak sebagai PDF melalui browser (Ctrl+P → Save as PDF)</p>
+</footer>
+
+</body>
+</html>
